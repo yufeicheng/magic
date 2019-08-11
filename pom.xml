@@ -10,6 +10,8 @@
     <modules>
         <module>magic-api</module>
         <module>magic-base</module>
+        <module>magic-mq</module>
+        <module>magic-interface</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -91,6 +93,13 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -106,4 +115,23 @@
         </plugins>
     </build>
 
+    <repositories>
+        <repository>
+            <id>aliyun</id>
+            <name>aliyun</name>
+            <url>http://maven.aliyun.com/nexus/content/groups/public</url>
+        </repository>
+
+        <repository>
+            <id>repo1</id>
+            <name>repo1</name>
+            <url>http://repo1.maven.org/maven2/</url>
+        </repository>
+
+        <repository>
+            <id>repo</id>
+            <name>repo</name>
+            <url>http://repo.spring.io/release/</url>
+        </repository>
+    </repositories>
 </project>

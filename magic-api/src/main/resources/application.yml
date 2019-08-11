@@ -1,0 +1,18 @@
+server:
+  port: 8090
+spring:
+  application.name: api
+  profiles.active: prod
+
+---
+spring.profiles: dev
+spring.profiles.include:
+
+
+---
+spring.profiles: prod
+spring.profiles.include:
+
+
+
+
