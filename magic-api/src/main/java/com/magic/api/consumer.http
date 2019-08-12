@@ -1,5 +1,9 @@
 ###
-GET {{url}}/dubbo/getCityName?cityName=ariana
+GET {{url}}/dubbo/getCityName?cityName=taylor
 Cache-Control: no-cache
 
+###
+GET {{url}}/dubbo/getUser
+Cache-Control: no-cache
 
+###

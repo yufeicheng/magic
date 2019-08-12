@@ -2,6 +2,7 @@ package com.magic.api.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.magic.api.service.CityReferenceService;
+import com.magic.api.service.UserReferenceService;
 import com.magic.base.util.JSONToolKit;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,10 +22,16 @@ public class DubboController {
 
     @Resource
     private CityReferenceService cityReferenceService;
+    @Resource
+    private UserReferenceService userReferenceService;
 
     @GetMapping("/getCityName")
     public JSONObject getCityName(@RequestParam String cityName) {
         return JSONToolKit.success(cityReferenceService.getCityName(cityName));
     }
 
+    @GetMapping("/getUser")
+    public JSONObject getCityName() {
+        return JSONToolKit.success(userReferenceService.getUser());
+    }
 }
