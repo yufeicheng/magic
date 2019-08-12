@@ -8,6 +8,12 @@ spring:
 spring.profiles: dev
 spring.profiles.include:
 
+db.stock:
+  host: 127
+  db: PG
+  user: test
+  pwd: 123
+
 
 ---
 spring.profiles: prod
