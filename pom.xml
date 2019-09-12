@@ -97,18 +97,6 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring-boot.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>repackage</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.0</version>
@@ -119,9 +107,54 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
+<!--            用于进行打包时，根据环境对resources下的配置文件进行属性自定义填充 eg:config.properties-->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <useDefaultDelimiters>false</useDefaultDelimiters>
+                    <delimiters>
+                        <delimiter>${*}</delimiter>
+                    </delimiters>
+                    <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
+<!--    用于进行打包时，根据环境对resources下的配置文件进行属性自定义填充-->
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <db.stock.host>172.16.198.11</db.stock.host>
+                <db.stock.db>PGenius</db.stock.db>
+                <db.stock.user>pg_test_yimin</db.stock.user>
+                <db.stock.pwd>n7lXLimPMlzsx0Nmjwhn</db.stock.pwd>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>pre</id>
+            <properties>
+                <db.stock.host>dbs01.1433.jrjc.local</db.stock.host>
+                <db.stock.db>PGenius</db.stock.db>
+                <db.stock.user>JRJ_TouGu_ReadOnly</db.stock.user>
+                <db.stock.pwd>XegzA62SfnAZq5frJOTX</db.stock.pwd>
+            </properties>
+        </profile>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <db.stock.host>dbs01.1433.jrjc.local</db.stock.host>
+                <db.stock.db>PGenius</db.stock.db>
+                <db.stock.user>JRJ_TouGu_ReadOnly</db.stock.user>
+                <db.stock.pwd>XegzA62SfnAZq5frJOTX</db.stock.pwd>
+            </properties>
+        </profile>
+    </profiles>
     <repositories>
         <repository>
             <id>aliyun</id>

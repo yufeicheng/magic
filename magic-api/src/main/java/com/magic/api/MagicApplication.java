@@ -12,9 +12,9 @@ import org.springframework.context.annotation.EnableAspectJAutoProxy;
 @SpringBootApplication
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableDubboConfig
-public class ApiApplication {
+public class MagicApplication {
 
     public static void main(String[] args) {
-        new SpringApplicationBuilder(ApiApplication.class).run(args);
+        new SpringApplicationBuilder(MagicApplication.class).run(args);
     }
 }
