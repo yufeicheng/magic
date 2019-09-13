@@ -13,9 +13,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class ReferenceConfiguration {
 
-    @Reference(group = "CityModule", version = "1.0.0", interfaceClass = CityService.class, url = "10.66.5.170:20881")
+    @Reference(group = "CityModule", version = "1.0.0", interfaceClass = CityService.class/*, url = "10.66.5.170:20881"*/)
     private CityService dubboCityService;
-    @Reference(group = "UserModule", version = "1.0.0", interfaceClass = UserService.class, url = "10.66.5.170:20880")
+    @Reference(group = "UserModule", version = "1.0.0", interfaceClass = UserService.class/*, url = "10.66.5.170:20880"*/)
     private UserService dubboUserService;
 
     @Bean
