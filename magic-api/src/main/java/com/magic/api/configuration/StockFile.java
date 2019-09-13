@@ -12,6 +12,7 @@ import java.nio.file.Paths;
 /**
  * @author Cheng Yufei
  * @create 2019-08-12 21:54
+ * syn
  **/
 @Component
 @Profile("dev")
