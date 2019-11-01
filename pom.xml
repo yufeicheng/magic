@@ -12,6 +12,7 @@
         <module>magic-base</module>
         <module>magic-mq</module>
         <module>magic-interface</module>
+        <module>magic-interview</module>
     </modules>
     <packaging>pom</packaging>
 

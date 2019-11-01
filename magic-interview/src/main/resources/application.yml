@@ -1,0 +1,13 @@
+server:
+  port: 8090
+spring:
+  application.name: interview
+  profiles.active: dev
+
+---
+spring.profiles: dev
+spring.profiles.include:
+
+
+
+
