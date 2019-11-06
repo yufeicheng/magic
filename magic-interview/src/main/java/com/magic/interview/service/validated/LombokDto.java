@@ -1,4 +1,4 @@
-package com.magic.base.dto;
+package com.magic.interview.service.validated;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -25,6 +25,8 @@ import java.util.Date;
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @ToString
+//自定义时间校验
+@MyCheck(startTime = "startTime",endTime = "endTime",message = "结束时间不能早于开始时间")
 public class LombokDto implements Serializable {
     //set属性时会做null的校验
     @NonNull
@@ -44,4 +46,8 @@ public class LombokDto implements Serializable {
      */
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     Date time;
+
+    String startTime;
+
+    String endTime;
 }

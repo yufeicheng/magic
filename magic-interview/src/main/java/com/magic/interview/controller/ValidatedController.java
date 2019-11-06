@@ -1,11 +1,13 @@
 package com.magic.interview.controller;
 
 import com.alibaba.fastjson.JSON;
-import com.magic.base.dto.LombokDto;
+import com.magic.interview.service.validated.LombokDto;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Range;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +25,13 @@ import java.util.Date;
 @Slf4j
 public class ValidatedController {
 
+    /**
+     * 基本注解校验测试
+     * @param name
+     * @param id
+     * @param size
+     * @return
+     */
     @GetMapping("/testNonNull")
     public String testNonNull(@NotBlank(message = "name 不能为空") String name, @Range(min = 2, max = 5, message = "id 不在指定范围内") Integer id,
                               @Size(min = 2, max = 5, message = "size大小不在给定范围") String[] size) {
@@ -33,6 +42,17 @@ public class ValidatedController {
 
         //return lombokDto;
         return JSON.toJSONString(lombokDto);
+    }
+
+    /**
+     * LombokDto 添加自定义@MyCheck 校验注解测试
+     * @param dto
+     * @return
+     */
+    @PostMapping("/myCheck")
+    public String myCheck(@RequestBody @Validated LombokDto dto) {
+
+        return JSON.toJSONString(dto);
     }
 }
 

@@ -7,8 +7,19 @@ GET {{url}}/dubbo/getUser
 Cache-Control: no-cache
 
 ###
-GET {{url}}/non/testNonNull?name=" "&id=2&size=a,b,c,d
+GET {{url}}/non/testNonNull?name=" "&id=1&size=a,b,c,d,f,g
 Accept: */*
 Cache-Control: no-cache
+
+###
+POST {{url}}/non/myCheck
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+{
+"startTime": "2019-10-10",
+  "endTime": "2019-10-09"
+}
 
 ###

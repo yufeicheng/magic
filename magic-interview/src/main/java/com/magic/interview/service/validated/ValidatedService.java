@@ -1,6 +1,4 @@
-package com.magic.interview.service.lombok;
-
-import com.magic.base.dto.LombokDto;
+package com.magic.interview.service.validated;
 
 /**
  * @author Cheng Yufei
