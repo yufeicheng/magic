@@ -1,5 +1,8 @@
 package com.magic.interview.service.lambda_exception;
 
+import lombok.SneakyThrows;
+import lombok.var;
+
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.FileSystem;
@@ -8,6 +11,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
+import java.time.temporal.ValueRange;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.stream.Stream;
 
@@ -25,7 +31,8 @@ public class LambdaExceptionService {
      *
      * @throws IOException
      */
-    public static void files() throws IOException {
+    @SneakyThrows
+    public static void files()  {
         long count =
                 //获取目录下的文件夹及文件
                 Files.walk(Paths.get("D:/test"))

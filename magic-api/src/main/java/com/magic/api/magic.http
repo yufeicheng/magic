@@ -7,3 +7,8 @@ GET {{url}}/dubbo/getUser
 Cache-Control: no-cache
 
 ###
+GET {{url}}/non/testNonNull?name=" "&id=2&size=a,b,c,d
+Accept: */*
+Cache-Control: no-cache
+
+###
