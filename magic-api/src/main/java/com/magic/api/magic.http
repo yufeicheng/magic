@@ -18,8 +18,10 @@ Cache-Control: no-cache
 Content-Type: application/json
 
 {
-"startTime": "2019-10-10",
-  "endTime": "2019-10-09"
+  "name": "北京",
+  "beginTime": "2019-10-10",
+  "overTime": "2019-10-09"
+
 }
 
 ###

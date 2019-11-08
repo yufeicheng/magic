@@ -1,9 +1,15 @@
 package com.magic.interview.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.google.common.collect.Sets;
+import com.magic.base.dto.Result;
 import com.magic.interview.service.validated.LombokDto;
+import com.magic.interview.service.validated.MyCheck;
+import com.magic.interview.service.validated.MyCheckValidated;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Range;
+import org.springframework.validation.BeanPropertyBindingResult;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.ConstraintViolationException;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.HashSet;
 
 /**
  * @author Cheng Yufei
@@ -46,13 +54,17 @@ public class ValidatedController {
 
     /**
      * LombokDto 添加自定义@MyCheck 校验注解测试
+     * 需处理BindingResult，否则
      * @param dto
      * @return
      */
     @PostMapping("/myCheck")
-    public String myCheck(@RequestBody @Validated LombokDto dto) {
-
-        return JSON.toJSONString(dto);
+    public Result myCheck(@RequestBody @Validated LombokDto dto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            log.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
+            return Result.fail();
+        }
+        return Result.success(dto);
     }
 }
 

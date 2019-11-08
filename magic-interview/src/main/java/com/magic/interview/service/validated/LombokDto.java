@@ -26,7 +26,7 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @ToString
 //自定义时间校验
-@MyCheck(startTime = "startTime",endTime = "endTime",message = "结束时间不能早于开始时间")
+@MyCheck(startTime = "beginTime",endTime = "overTime",message = "结束时间不能早于开始时间")
 public class LombokDto implements Serializable {
     //set属性时会做null的校验
     @NonNull
@@ -47,7 +47,7 @@ public class LombokDto implements Serializable {
     @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     Date time;
 
-    String startTime;
+    String beginTime;
 
-    String endTime;
+    String overTime;
 }

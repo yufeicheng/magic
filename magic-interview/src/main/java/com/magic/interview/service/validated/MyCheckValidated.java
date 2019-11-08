@@ -17,7 +17,6 @@ import java.util.Objects;
  **/
 public class MyCheckValidated implements ConstraintValidator<MyCheck,Object> {
 
-
     private String startTime;
 
     private String endTime;

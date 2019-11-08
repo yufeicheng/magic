@@ -5,10 +5,19 @@ import static com.google.common.base.Preconditions.checkPositionIndex;
 
 
 import com.google.common.collect.Lists;
+import com.magic.interview.service.validated.LombokDto;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
+import org.springframework.beans.BeanWrapper;
+import org.springframework.beans.BeanWrapperImpl;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+import java.util.zip.DataFormatException;
 
 /**
  * @author Cheng Yufei
@@ -34,5 +43,22 @@ public class TestC {
         checkPositionIndex(4, strings.size());
 
     }
+
+    @Test
+    public void beanwapper() {
+
+        LombokDto dto = new LombokDto();
+        dto.setCid(1);
+        dto.setName("北京");
+        dto.setTime(new Date());
+
+        Field[] fields = LombokDto.class.getDeclaredFields();
+
+        BeanWrapper wrapper = new BeanWrapperImpl(dto);
+        Stream.of(fields).forEach(f -> System.out.println(wrapper.getPropertyValue(f.getName())));
+
+
+    }
+
 
 }
