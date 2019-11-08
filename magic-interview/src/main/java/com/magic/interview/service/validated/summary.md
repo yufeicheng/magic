@@ -50,3 +50,16 @@
         Validation.byProvider(HibernateValidator.class).configure().failFast(true).buildValidatorFactory()
                        
    ```   
+5. 异常处理：
+    ```
+        1. ValidateExceptionhandle : 拦截 ValidationException 异常完成对 非实体类参数校验的异常全局处理；
+        2. 实体类参数校验异常使用 BindingResult  
+   ```
+   
+6. 分组校验
+    ```
+        1. 定义空 interface GroupA
+        2. LombokDto: cid 属性 @NotNull(groups = GroupA.class) 指定分组，
+        3. ValidatedController/ myCheck 方法中 参数前 @Validated(GroupA.class) 指定分组校验才会生效；
+        4. 同一个实体类，不同的接口，并不是都需要对cid非空校验，所以指定分组，不需要校验的无需指定分组；
+    ```

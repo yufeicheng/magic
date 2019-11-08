@@ -3,6 +3,7 @@ package com.magic.interview.controller;
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Sets;
 import com.magic.base.dto.Result;
+import com.magic.interview.service.validated.GroupA;
 import com.magic.interview.service.validated.LombokDto;
 import com.magic.interview.service.validated.MyCheck;
 import com.magic.interview.service.validated.MyCheckValidated;
@@ -22,6 +23,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.stream.Stream;
 
 /**
  * @author Cheng Yufei
@@ -59,9 +61,11 @@ public class ValidatedController {
      * @return
      */
     @PostMapping("/myCheck")
-    public Result myCheck(@RequestBody @Validated LombokDto dto, BindingResult bindingResult) {
+    public Result myCheck(@RequestBody @Validated(GroupA.class) LombokDto dto, BindingResult bindingResult) {
+        //dto.setCid(null);
+        log.info(dto.toString());
         if (bindingResult.hasErrors()) {
-            log.error(bindingResult.getAllErrors().get(0).getDefaultMessage());
+            bindingResult.getAllErrors().stream().forEach(e->log.error(e.getDefaultMessage()));
             return Result.fail();
         }
         return Result.success(dto);

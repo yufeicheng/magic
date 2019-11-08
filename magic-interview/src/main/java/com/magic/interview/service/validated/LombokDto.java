@@ -11,6 +11,7 @@ import lombok.ToString;
 import lombok.experimental.FieldDefaults;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -26,10 +27,10 @@ import java.util.Date;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @ToString
 //自定义时间校验
-@MyCheck(startTime = "beginTime",endTime = "overTime",message = "结束时间不能早于开始时间")
+@MyCheck(startTime = "beginTime", endTime = "overTime", message = "结束时间不能早于开始时间")
 public class LombokDto implements Serializable {
     //set属性时会做null的校验
-    @NonNull
+    @NotNull(groups = GroupA.class, message = "cid不能为空")
     Integer cid;
     String name;
 
