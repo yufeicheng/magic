@@ -8,6 +8,8 @@ spring:
 spring.profiles: dev
 spring.profiles.include:
 
-
-
-
+sms:
+  ali:
+    key-string: key-string
+    secret: secret
+  enable: true
