@@ -4,7 +4,7 @@
 
 2. 包装Function：
 
-    a. CheckFunction
+    a. [eg: CheckFunction]
     
         ```
           1. @FunctionalInterface : 函数接口
@@ -16,20 +16,24 @@
                  
                  * 可以使用一个lambda表达式 表示该接口的实现；
           
-          2. 定义抽象方法 applay throws Exception 
+          2. 定义抽象方法 : 
+                
+                R apply(T t) throws Exception;
            
         ```
         
-    b. Handle 接口
+    b. [eg:Handle 接口]
     
       ```
-         1. 定义 static 方法，接受CheckFunction参数，try / cache 处理 ，返回Function       
+         1. 定义 static 方法，接受CheckFunction参数，try / cache 处理后 ，返回Function，完成对Function的包装       
 
    ```
            
            
-3. LambdaExceptionService 使用
+3. 使用： [eg:LambdaExceptionService] 
 
     ```
-        1. 将有受检查异常的方法调用用Handle类包装处理
+        1. 将有受检查异常的方法调用用Handle类包装处理：
+        
+            .flatMap(Handle.handle(p -> Files.lines(p, Charset.forName("utf-8"))))
    ```           

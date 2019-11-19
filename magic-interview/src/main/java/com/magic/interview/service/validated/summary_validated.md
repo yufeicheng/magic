@@ -31,19 +31,19 @@
 
      2. LombokDto类上加 @MyCheck ，和属性名对应：@MyCheck(startTime = "beginTime",endTime = "overTime",message = "结束时间不能早于开始时间")   
    ```
-2. 检验规则：MyCheckValidated
+2. 检验规则：[eg:MyCheckValidated]
     ```
         1. MyCheckValidated implements ConstraintValidator<MyCheck,Object> , 初始方法中指定属性和MyCheck中的对应值 ；校验方法中设置校验规则；
         
         
    ```
-3. ValidatedController使用：
+3. 使用： [eg:ValidatedController]
     ```
        1. 入参参数 LombokDto 前添加： @Validated
        2. BindingResult 形参处理 自定义校验规则的错误信息，不是用此参数接口错误时返回400
    ```   
 
-4. 配置：ValidatedConfig
+4. 配置：[eg:ValidatedConfig]
     ```
         1. 多个校验时，有一个错误就直接报错，不会在继续往下走进行其他的校验，快速失败。
    
