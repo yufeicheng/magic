@@ -1,31 +1,33 @@
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkElementIndex;
-import static com.google.common.base.Preconditions.checkPositionIndex;
-
-
 import com.google.common.collect.Lists;
 import com.magic.interview.service.validated.LombokDto;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.functors.AnyPredicate;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.junit.Test;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import java.util.zip.DataFormatException;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkElementIndex;
+import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkPositionIndex;
 
 /**
  * @author Cheng Yufei
@@ -120,10 +122,10 @@ public class TestC {
 
 
         //交换位置
-        Collections.swap(list_1,0,2);
+        Collections.swap(list_1, 0, 2);
 
         //所有元素都替换为指定元素
-        Collections.fill(list_1,"P");
+        Collections.fill(list_1, "P");
 
         int frequency = Collections.frequency(list_1, "B");
 
@@ -135,6 +137,33 @@ public class TestC {
         //洗牌
         Collections.shuffle(list_1);
 
+    }
+
+    /**
+     * IO
+     */
+    @Test
+    public void io() throws IOException {
+
+        //流中读取到List中
+        List<String> readLines = IOUtils.readLines(new FileInputStream(new File("D:/新建文本文档.txt")), "utf-8");
+        System.out.println(readLines);
+
+        //文件读到List中
+        List<String> strings = FileUtils.readLines(new File("D:/新建文本文档.txt"), "utf-8");
+
+        //string 写到文件中
+        FileUtils.writeStringToFile(new File("D:/xx.txt"), "写数据到文件中", "utf-8");
+
+    }
+
+    @Test
+    public void pairAndTriple() {
+        ImmutablePair<String, String> pair = ImmutablePair.of("A", "a");
+        System.out.println(pair.left + "----" + pair.right);
+
+        ImmutableTriple<String, String, String> triple = ImmutableTriple.of("A", "a", "c");
+        System.out.println(triple.left + "---" + triple.middle + "---" + triple.right);
     }
 
 
