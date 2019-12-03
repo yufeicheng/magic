@@ -10,8 +10,7 @@
         <Property name="fileName">D:/log</Property>
         <Property name="fileGz">D:/log/7z</Property>
         <Property name="PID">????</Property>
-        <Property name="LOG_PATTERN">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{%5p} %clr{${sys:PID}}{magenta}
-            %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n%xwEx
+        <Property name="LOG_PATTERN">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{%5p} %clr{${sys:PID}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n%xwEx
         </Property>
     </properties>
 
@@ -43,7 +42,8 @@
             <DefaultRolloverStrategy max="50"/>
         </RollingRandomAccessFile>
         <!-- 存储所有error信息 -->
-        <RollingRandomAccessFile name="errorFile" fileName="${fileName}/magic-interview-error.log" immediateFlush="false"
+        <RollingRandomAccessFile name="errorFile" fileName="${fileName}/magic-interview-error.log"
+                                 immediateFlush="false"
                                  filePattern="${fileGz}/$${date:yyyy-MM}/%d{yyyy-MM-dd}-%i.magic-interview-error.gz">
             <PatternLayout pattern="${LOG_PATTERN}"/>
 
@@ -62,20 +62,36 @@
     </Appenders>
 
     <!-- Mixed sync/async -->
-    <Loggers>
-        <Root level="debug" includeLocation="true">
-            <AppenderRef ref="console"/>
-            <AppenderRef ref="infoFile"/>
-            <AppenderRef ref="errorFile"/>
-        </Root>
+    <!--<springProfile name="dev">
+        <Loggers>
+            <logger name="com.magic" level="debug"/>
+            <Root level="debug" includeLocation="true">
+                <AppenderRef ref="console"/>
+                <AppenderRef ref="infoFile"/>
+                <AppenderRef ref="errorFile"/>
+            </Root>
 
-        <AsyncRoot level="debug" includeLocation="true">
-            <AppenderRef ref="console"/>
-            <AppenderRef ref="infoFile"/>
-            <AppenderRef ref="errorFile"/>
-        </AsyncRoot>
+            <AsyncRoot level="debug" includeLocation="true">
+                <AppenderRef ref="console"/>
+                <AppenderRef ref="infoFile"/>
+                <AppenderRef ref="errorFile"/>
+            </AsyncRoot>
+        </Loggers>
 
+    </springProfile>-->
+<!--    <springProfile name="dev">-->
+        <loggers>
+            <logger name="com.magic" level="debug"/>
+            <!--配置输出sql语句-->
+            <logger name="org.apache.ibatis" level="DEBUG"/>
+            <logger name="java.sql.Connection" level="DEBUG"/>
+            <logger name="java.sql.Statement" level="DEBUG"/>
+            <logger name="java.sql.PreparedStatement" level="DEBUG"/>
 
-    </Loggers>
+            <root level="INFO">
+                <appender-ref ref="console" />
+            </root>
+        </loggers>
+<!--    </springProfile>-->
 
 </configuration>

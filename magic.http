@@ -6,6 +6,9 @@ Cache-Control: no-cache
 GET {{url}}/dubbo/getUser
 Cache-Control: no-cache
 
+
+
+//////////////////////////////////////////- interview -//////////////////////////////////////////
 ###
 GET {{url}}/non/testNonNull?name=" "&id=1&size=a,b,c,d,f,g
 Accept: */*
@@ -27,6 +30,13 @@ Content-Type: application/json
 
 ###
 GET {{url}}/non/customeStarter
+Accept: */*
+Cache-Control: no-cache
+
+###
+
+###
+GET {{url}}/encry/getUsers
 Accept: */*
 Cache-Control: no-cache
 
