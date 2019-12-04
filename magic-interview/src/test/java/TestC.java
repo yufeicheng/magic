@@ -7,6 +7,7 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
+import org.jasypt.util.text.BasicTextEncryptor;
 import org.junit.Test;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
@@ -166,5 +167,15 @@ public class TestC {
         System.out.println(triple.left + "---" + triple.middle + "---" + triple.right);
     }
 
+    @Test
+    public void encrypt() {
+        BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
+        textEncryptor.setPassword("e2TxKdz");
+
+        String res = textEncryptor.decrypt("HWuWGiatmGzF41wYyrsF482iEVWGrfmf");
+        System.out.println(res);
+
+
+    }
 
 }

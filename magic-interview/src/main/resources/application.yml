@@ -17,6 +17,3 @@ sms:
 # 指定log4j2作为日志记录
 logging:
   config: classpath:log4j2-dev.xml
-  level:
-    #这个指定你的dao层，也就是mapper文件的所在包
-    com.magic.dao: DEBUG

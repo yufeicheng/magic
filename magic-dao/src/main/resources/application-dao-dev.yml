@@ -8,8 +8,9 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
       #基本属性
       url: jdbc:mysql://39.106.118.71/sharding?characterEncoding=utf-8
-      username: slave
-      password: slave@2019
+      #jasypt加密
+      username: ENC(3RS678xyF+OMSsvPhk/Jog==)
+      password: ENC(ZSbSDPMfbQpDqKwJvcoTR/vaEBBEF1ew)
       #配置初始化大小/最小/最大
       initial-size: 5
       min-idle: 5
@@ -26,7 +27,6 @@ spring:
       test-on-return: false
       pool-prepared-statements: false
       max-pool-prepared-statement-per-connection-size: 20
-
 
 
 mybatis:

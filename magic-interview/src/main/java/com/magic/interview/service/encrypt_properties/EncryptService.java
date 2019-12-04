@@ -21,17 +21,20 @@ public class EncryptService {
 
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private BasicTextEncryptor textEncryptor;
 
+    /**
+     * 明文加密生成加密串用于配置文件替换
+     * @return
+     */
     public Map encryProperties() {
-        BasicTextEncryptor encryptor = new BasicTextEncryptor();
-        encryptor.setPassword("e2TxKdz");
-        String username = encryptor.encrypt("slave");
-        String pwd = encryptor.encrypt("slave@2019");
+        String username = textEncryptor.encrypt("slave");
+        String pwd = textEncryptor.encrypt("slave@2019");
         return ImmutableMap.of("username", username, "pwd", pwd);
     }
 
     public List<User> getUsers() {
-        log.info(">>>>>>>>>>>>>>>>>>>");
         List<User> list = userMapper.getList();
         return list;
     }
