@@ -23,6 +23,10 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
+import java.util.function.Function;
+import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 import java.util.stream.Stream;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -174,8 +178,35 @@ public class TestC {
 
         String res = textEncryptor.decrypt("HWuWGiatmGzF41wYyrsF482iEVWGrfmf");
         System.out.println(res);
+    }
 
+    @Test
+    public void streamCreate() {
+        //iterate: 第一个参数初始值，第二个参数操作
+        Stream.iterate(10, n -> n + 1).limit(5).forEach(v -> System.out.println(v));
+
+        Stream.generate(() -> ThreadLocalRandom.current().nextInt(10)).limit(5).forEach(v -> System.out.println(v));
+
+        List<Double> collect = Stream.of(1.2, 2.3, 3.4).collect(Collectors.toList());
+        List<Double> collect1 = DoubleStream.of(1.2, 2.3).boxed().collect(Collectors.toList());
+        System.out.println(collect + "---" + collect1);
+    }
+
+    @Test
+    public void concatStream() {
+
+        //流拼接
+        Stream<Integer> stream = Stream.of(1, 2, 3);
+        Stream<Integer> stream2 = Stream.of(4, 5, 6);
+        Stream<Integer> stream3 = Stream.of(7, 8, 9);
+
+        List<Integer> collect = Stream.concat(stream, stream2).collect(Collectors.toList());
+        System.out.println(collect);
+
+        List<Integer> collect1 = Stream.of(stream, stream2, stream3).flatMap(Function.identity()).collect(Collectors.toList());
+        System.out.println(collect1);
 
     }
+
 
 }
