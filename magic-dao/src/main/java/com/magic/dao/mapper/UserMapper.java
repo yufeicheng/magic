@@ -1,5 +1,7 @@
 package com.magic.dao.mapper;
 
+import com.magic.dao.config.DataSource;
+import com.magic.dao.config.DataSourceType;
 import com.magic.dao.model.User;
 import com.magic.dao.model.UserExample;
 import org.apache.ibatis.annotations.Mapper;
@@ -41,6 +43,6 @@ public interface UserMapper {
      */
     @Select("select * from user")
     @ResultType(User.class)
-    List<User> getList();
-
+    @DataSource(DataSourceType.TYPE.FIRST)
+    List<User> getUserList();
 }

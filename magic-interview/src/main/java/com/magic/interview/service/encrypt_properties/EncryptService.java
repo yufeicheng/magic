@@ -35,7 +35,7 @@ public class EncryptService {
     }
 
     public List<User> getUsers() {
-        List<User> list = userMapper.getList();
+        List<User> list = userMapper.getUserList();
         return list;
     }
 }

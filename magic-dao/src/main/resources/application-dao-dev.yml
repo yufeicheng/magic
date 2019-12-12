@@ -3,31 +3,57 @@ spring:
     type: com.alibaba.druid.pool.DruidDataSource
     #druid相关配置
     druid:
+      first:
       #监控统计拦截的filters
-      filters: stat
-      driver-class-name: com.mysql.cj.jdbc.Driver
-      #基本属性
-      url: jdbc:mysql://39.106.118.71/sharding?characterEncoding=utf-8
-      #jasypt加密
-      username: ENC(3RS678xyF+OMSsvPhk/Jog==)
-      password: ENC(ZSbSDPMfbQpDqKwJvcoTR/vaEBBEF1ew)
-      #配置初始化大小/最小/最大
-      initial-size: 5
-      min-idle: 5
-      max-active: 100
-      #获取连接等待超时时间
-      max-wait: 60000
-      #间隔多久进行一次检测，检测需要关闭的空闲连接
-      time-between-eviction-runs-millis: 60000
-      #一个连接在池中最小生存的时间
-      min-evictable-idle-time-millis: 300000
-      validation-query: SELECT 'x'
-      test-while-idle: true
-      test-on-borrow: false
-      test-on-return: false
-      pool-prepared-statements: false
-      max-pool-prepared-statement-per-connection-size: 20
+        filters: stat
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        #基本属性
+        url: jdbc:mysql://39.106.118.71/sharding?characterEncoding=utf-8
+        #jasypt加密
+        username: ENC(3RS678xyF+OMSsvPhk/Jog==)
+        password: ENC(ZSbSDPMfbQpDqKwJvcoTR/vaEBBEF1ew)
+        #配置初始化大小/最小/最大
+        initial-size: 5
+        min-idle: 5
+        max-active: 100
+        #获取连接等待超时时间
+        max-wait: 60000
+        #间隔多久进行一次检测，检测需要关闭的空闲连接
+        time-between-eviction-runs-millis: 60000
+        #一个连接在池中最小生存的时间
+        min-evictable-idle-time-millis: 300000
+        validation-query: SELECT 'x'
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        pool-prepared-statements: false
+        max-pool-prepared-statement-per-connection-size: 20
 
+      second:
+        #监控统计拦截的filters
+        filters: stat
+        driver-class-name: com.mysql.cj.jdbc.Driver
+        #基本属性
+        url: jdbc:mysql://39.106.118.71/ds_0?characterEncoding=utf-8
+        #jasypt加密
+        username: ENC(3RS678xyF+OMSsvPhk/Jog==)
+        password: ENC(ZSbSDPMfbQpDqKwJvcoTR/vaEBBEF1ew)
+        #配置初始化大小/最小/最大
+        initial-size: 5
+        min-idle: 5
+        max-active: 100
+        #获取连接等待超时时间
+        max-wait: 60000
+        #间隔多久进行一次检测，检测需要关闭的空闲连接
+        time-between-eviction-runs-millis: 60000
+        #一个连接在池中最小生存的时间
+        min-evictable-idle-time-millis: 300000
+        validation-query: SELECT 'x'
+        test-while-idle: true
+        test-on-borrow: false
+        test-on-return: false
+        pool-prepared-statements: false
+        max-pool-prepared-statement-per-connection-size: 20
 
 mybatis:
   mapper-locations: classpath*:mapper/*.xml

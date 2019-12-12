@@ -46,4 +46,9 @@ GET {{url}}/encry/encryptInfo
 Accept: */*
 Cache-Control: no-cache
 
+######
+GET {{url}}/dynamic/getList
+Accept: */*
+Cache-Control: no-cache
+
 ###
