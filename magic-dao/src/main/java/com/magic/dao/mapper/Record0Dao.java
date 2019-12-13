@@ -23,6 +23,6 @@ public interface Record0Dao {
 
     @Select("select * from record0")
     @ResultType(Record0.class)
-    @DataSource(DataSourceType.TYPE.SECOND)
+    @DataSource(DataSourceType.Type.SECOND)
     List<Record0> getRecord0List();
 }

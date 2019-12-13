@@ -11,12 +11,11 @@ import lombok.Getter;
 @Getter
 public class DataSourceType {
 
-   public enum TYPE {
+    public enum Type {
         //
         FIRST,
-        SECOND
-
+        SECOND;
     }
 
-   protected static final ThreadLocal<TYPE> threadLocal = new ThreadLocal<>();
+    protected static final ThreadLocal<Type> threadLocal = new ThreadLocal<>();
 }

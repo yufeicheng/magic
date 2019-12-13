@@ -12,5 +12,5 @@ import java.lang.annotation.Target;
 @Target(ElementType.METHOD)
 public @interface DataSource {
 
-    DataSourceType.TYPE value();
+    DataSourceType.Type value();
 }

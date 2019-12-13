@@ -43,6 +43,6 @@ public interface UserMapper {
      */
     @Select("select * from user")
     @ResultType(User.class)
-    @DataSource(DataSourceType.TYPE.FIRST)
+    @DataSource(DataSourceType.Type.FIRST)
     List<User> getUserList();
 }

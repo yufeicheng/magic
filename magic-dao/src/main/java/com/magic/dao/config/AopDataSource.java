@@ -21,7 +21,7 @@ public class AopDataSource {
 
     @Before("@annotation(dataSource)")
     public void dataSourceInfo(DataSource dataSource) {
-        DataSourceType.TYPE value = dataSource.value();
+        DataSourceType.Type value = dataSource.value();
         DataSourceType.threadLocal.set(value);
     }
 
