@@ -6,6 +6,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
+ * 数据源注解
  * @author Cheng Yufei
  */
 @Retention(RetentionPolicy.RUNTIME)

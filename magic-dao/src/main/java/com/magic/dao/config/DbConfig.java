@@ -38,6 +38,14 @@ public class DbConfig {
         return dataSource;
     }
 
+    /**
+     * 设置AbstractRoutingDataSource的路由数据源及默认数据源
+     *
+     * 用 @Qualifier 表明bean，否则second仍会使用@Primary数据源
+     * @param first
+     * @param second
+     * @return
+     */
     @Bean(name = "dynamicDataSource")
     public DataSourceRouting dataSource(@Qualifier("first") DataSource first, @Qualifier("second") DataSource second) {
         DataSourceRouting dataSourceRouting = new DataSourceRouting();
@@ -46,6 +54,12 @@ public class DbConfig {
         return dataSourceRouting;
     }
 
+    /**
+     * 设置SqlSessionFactory的数据源为动态数据源，否则默认是@Primary，起不到路由作用，请求只会都走主数据源
+     * @param dynamicDataSource
+     * @return
+     * @throws Exception
+     */
     @Bean
     public SqlSessionFactory sqlSessionFactory(@Qualifier("dynamicDataSource") DataSource dynamicDataSource) throws Exception {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
