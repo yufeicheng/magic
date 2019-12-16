@@ -104,10 +104,10 @@ public class ReplaceService {
         });
 
         //输出执行结果文件
-        FileUtils.writeStringToFile(new File("/Users/chengyufei/Downloads/dmg/ebook/res.txt"), JSON.toJSONString(result), Charset.forName("UTF-8"));
+        FileUtils.writeStringToFile(new File("D:/test/result.txt"), JSON.toJSONString(result), Charset.forName("UTF-8"));
     }
 
     public static void main(String[] args) throws IOException {
-        scanFils("/Users/chengyufei/Downloads/dmg/ebook", "txt", "itougu.jrj.com.cn", "www.itougu.com");
+        scanFils("D:/test", "js,html,txt", "itougu.jrj.com.cn", "www.itougu.com");
     }
 }
