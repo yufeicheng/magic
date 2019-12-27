@@ -99,3 +99,44 @@
     </loggers>
 
 </configuration>
+
+<!--
+PatternLayout自定义日志布局：
+
+%d{yyyy-MM-dd HH:mm:ss, SSS} : 日志生产时间,输出到毫秒的时间
+%-5level : 输出日志级别，-5表示左对齐并且固定输出5个字符，如果不足在右边补0
+%c : logger的名称(%logger)
+%t : 输出当前线程名称
+%p : 日志输出格式
+%m : 日志内容，即 logger.info("message")
+%n : 换行符
+%C : Java类名(%F)
+%L : 行号
+%M : 方法名
+%l : 输出语句所在的行数, 包括类名、方法名、文件名、行数
+
+=========================================================================================================================================================
+
+RollingFile节点用来定义超过指定条件自动删除旧的创建新的Appender.
+
+name:指定Appender的名字.
+fileName:指定输出日志的目的文件带全路径的文件名.
+PatternLayout:输出格式，不设置默认为:%m%n.
+filePattern : 指定当发生Rolling时，文件的转移和重命名规则.
+Policies:指定滚动日志的策略，就是什么时候进行新建日志文件输出日志.
+TimeBasedTriggeringPolicy:Policies子节点，基于时间的滚动策略，interval属性用来指定多久滚动一次，默认是1 hour。modulate=true用来调整时间：比如现在是早上3am，interval是4，那么第一次滚动是在4am，接着是8am，12am...而不是7am.
+SizeBasedTriggeringPolicy:Policies子节点，基于指定文件大小的滚动策略，size属性用来定义每个日志文件的大小.
+DefaultRolloverStrategy:用来指定同一个文件夹下最多有几个日志文件时开始删除最旧的，创建新的(通过max属性)。
+
+=========================================================================================================================================================
+
+Loggers节点，常见的有两种:Root和Logger.
+Root节点用来指定项目的根日志，如果没有单独指定Logger，那么就会默认使用该Root日志输出
+
+level:日志输出级别，共有8个级别，按照从低到高为：All < Trace < Debug < Info < Warn < Error < AppenderRef：Root的子节点，用来指定该日志输出到哪个Appender.
+Logger节点用来单独指定日志的形式，比如要为指定包下的class指定不同的日志级别等。
+level:日志输出级别，共有8个级别，按照从低到高为：All < Trace < Debug < Info < Warn < Error < Fatal < OFF.
+name:用来指定该Logger所适用的类或者类所在的包全路径,继承自Root节点.
+AppenderRef：Logger的子节点，用来指定该日志输出到哪个Appender,如果没有指定，就会默认继承自Root.如果指定了，那么会在指定的这个Appender和Root的Appender中都会输出，此时我们可以设置Logger的additivity="false"只在自定义的Appender中进行输出。
+
+-->
