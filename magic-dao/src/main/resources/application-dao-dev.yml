@@ -34,7 +34,7 @@ spring:
       second:
         #监控统计拦截的filters
         filters: stat
-        driver-class-name: com.mysql.jdbc.Driver
+        driver-class-name: com.mysql.cj.jdbc.Driver
         #基本属性
 #        url: jdbc:mysql://39.106.118.71:3306/ds_0?characterEncoding=utf-8
         #docker mysql 容器地址
