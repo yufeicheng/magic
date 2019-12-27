@@ -46,7 +46,7 @@ GET {{url}}/encry/encryptInfo
 Accept: */*
 Cache-Control: no-cache
 
-######
+######   docker run -d -v /data:/data --name magic-interview -p 8090:8090 magic-interview:1.1
 GET {{url}}/dynamic/getList
 Accept: */*
 Cache-Control: no-cache

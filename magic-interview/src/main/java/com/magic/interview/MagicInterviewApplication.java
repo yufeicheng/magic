@@ -17,7 +17,8 @@ import org.springframework.context.annotation.PropertySource;
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableSms
 //获取配置文件加密盐值
-@PropertySource(value = {"file:D:/encrypt.properties"})
+//@PropertySource(value = {"file:D:/encrypt.properties"})
+@PropertySource(value = {"file:/data/encrypt.properties"})
 public class MagicInterviewApplication {
 
     @Value("${jasypt.encryptor.password}")

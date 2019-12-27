@@ -8,7 +8,8 @@ spring:
         filters: stat
         driver-class-name: com.mysql.cj.jdbc.Driver
         #基本属性
-        url: jdbc:mysql://39.106.118.71/sharding?characterEncoding=utf-8
+#        url: jdbc:mysql://39.106.118.71:3306/sharding?characterEncoding=utf-8
+        url: jdbc:mysql://172.18.0.2:3306/sharding?characterEncoding=utf-8
         #jasypt加密
         username: ENC(3RS678xyF+OMSsvPhk/Jog==)
         password: ENC(ZSbSDPMfbQpDqKwJvcoTR/vaEBBEF1ew)
@@ -32,9 +33,10 @@ spring:
       second:
         #监控统计拦截的filters
         filters: stat
-        driver-class-name: com.mysql.cj.jdbc.Driver
+        driver-class-name: com.mysql.jdbc.Driver
         #基本属性
-        url: jdbc:mysql://39.106.118.71/ds_0?characterEncoding=utf-8
+#        url: jdbc:mysql://39.106.118.71:3306/ds_0?characterEncoding=utf-8
+        url: jdbc:mysql://172.18.0.2:3306/ds_0?characterEncoding=utf-8
         #jasypt加密
         username: ENC(3RS678xyF+OMSsvPhk/Jog==)
         password: ENC(ZSbSDPMfbQpDqKwJvcoTR/vaEBBEF1ew)
