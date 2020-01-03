@@ -28,10 +28,8 @@ public class EncryptService {
      * 明文加密生成加密串用于配置文件替换
      * @return
      */
-    public Map encryProperties() {
-        String username = textEncryptor.encrypt("slave");
-        String pwd = textEncryptor.encrypt("slave@2019");
-        return ImmutableMap.of("username", username, "pwd", pwd);
+    public String encryProperties(String key) {
+        return textEncryptor.encrypt(key);
     }
 
     public List<User> getUsers() {

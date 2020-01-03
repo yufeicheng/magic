@@ -41,13 +41,25 @@ Accept: */*
 Cache-Control: no-cache
 
 ###
-###
-GET {{url}}/encry/encryptInfo
+### 获取加密串
+GET {{url}}/encry/encryptInfo?key=68A61C323A3452544C4AEF6296D8BD95A
 Accept: */*
 Cache-Control: no-cache
 
-######   docker run -d -v /data:/data --name magic-interview -p 8090:8090 magic-interview:1.1
+###### 动态数据源  docker run -d -v /data:/data --name magic-interview -p 8090:8090 magic-interview:1.1
 GET {{url}}/dynamic/getList
+Accept: */*
+Cache-Control: no-cache
+
+###缓存问题
+###
+GET {{url}}/ques/breakdown
+Accept: */*
+Cache-Control: no-cache
+
+### scan 0 match test* count 5
+### &value=1
+GET {{url}}/ques/redis/del?key=record:list
 Accept: */*
 Cache-Control: no-cache
 

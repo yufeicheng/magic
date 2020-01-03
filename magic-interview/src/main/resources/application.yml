@@ -3,6 +3,11 @@ server:
 spring:
   application.name: interview
   profiles.active: dev
+  redis:
+    host: 39.106.118.71
+#    host: 172.18.0.3
+    port: 6380
+    password: ENC(T7Y99lbcrglxUvKQKS+4mbQdxyIp2k6HcxYvjhComC4zTd/LomKY7VEW6f21RBwO)
 
 ---
 spring.profiles: dev
