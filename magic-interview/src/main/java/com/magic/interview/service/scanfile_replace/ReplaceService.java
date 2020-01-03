@@ -1,24 +1,28 @@
-package com.magic.interview.service.dynamic_datasource;
+package com.magic.interview.service.scanfile_replace;
 
 import com.alibaba.fastjson.JSON;
-import com.google.common.base.Supplier;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 /**
@@ -32,13 +36,15 @@ public class ReplaceService {
      * 目录遍历需包含目录a下的所有子目录.
      * <p>
      * result:输出一个执行结果文件，包含更新文件名、行号
+     * <p>
+     * 压缩包-时间戳
      *
      * @param path:          目录
      * @param suffix         后缀：,分割
      * @param beReplacedWord :被替换文本
      * @param newWord        : 新文本
      */
-    public static void scanFils(String path, String suffix, String beReplacedWord, String newWord) throws IOException {
+    public static void scanFils(String path, String suffix, String beReplacedWord, String newWord, String outPath) throws IOException, InterruptedException {
 
         final Path[] currentPath = new Path[1];
         final Set<Integer>[] modifyLines = new Set[1];
@@ -48,6 +54,29 @@ public class ReplaceService {
 
         Map<String, Set<Integer>> result = new HashMap<>();
         Map<Path, StringBuffer> data = new HashMap<>();
+
+        //不以 / 开头，说明此时输入的是相对路径，pwd 取绝对路径
+        if (!path.startsWith("/")) {
+            Process pwd = Runtime.getRuntime().exec("pwd");
+            String line;
+            BufferedReader br;
+            br = new BufferedReader(new InputStreamReader(pwd.getInputStream(), "UTF-8"));
+            while ((line = br.readLine()) != null) {
+                path = line;
+            }
+        }
+
+        //替换前先进行打包
+        String gzName = StringUtils.substring(path, path.lastIndexOf("/") + 1);
+        String time = DateTimeFormatter.ofPattern("yyyyMMddHHmmss").format(LocalDateTime.now());
+
+        String command = "tar -zcvf " + gzName + "_" + time + ".tar.gz ../" + gzName;
+        Process process = Runtime.getRuntime().exec(command);
+        System.out.println("打包执行中...：" + command);
+        if (process.waitFor() == 0) {
+            System.out.println("打包完成，开始替换。。。");
+        }
+
         Files.walk(Paths.get(path)).filter(p -> !Files.isDirectory(p))
                 .filter(p -> {
                     boolean matches = FileSystems.getDefault().getPathMatcher("glob:**.{" + suffix + "}").matches(p);
@@ -92,11 +121,13 @@ public class ReplaceService {
                     }
                 });
         if (MapUtils.isEmpty(data)) {
+            System.out.println("无可替换文件");
             return;
         }
         //回写文件
         data.forEach((k, v) -> {
             try {
+                System.out.println("处理 " + k + " 文件");
                 Files.write(k, v.toString().getBytes());
             } catch (IOException e) {
                 e.printStackTrace();
@@ -104,10 +135,10 @@ public class ReplaceService {
         });
 
         //输出执行结果文件
-        FileUtils.writeStringToFile(new File("D:/test/result.txt"), JSON.toJSONString(result), Charset.forName("UTF-8"));
+        FileUtils.writeStringToFile(new File(outPath + "/" + time + "_result.txt"), JSON.toJSONString(result), Charset.forName("UTF-8"));
     }
 
-    public static void main(String[] args) throws IOException {
-        scanFils("D:/test", "js,html,txt", "itougu.jrj.com.cn", "www.itougu.com");
+    public static void main(String[] args) throws IOException, InterruptedException {
+        scanFils(args[0], args[1], args[2], args[3], args[4]);
     }
 }
