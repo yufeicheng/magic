@@ -11,10 +11,14 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.text.Collator;
 import java.time.temporal.ValueRange;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * 缓存相关问题
@@ -74,7 +78,6 @@ public class QuestionService {
         log.info(">>>缓存失效，操作数据库<<<");
         operations.set(dataKey, record0List, 3, TimeUnit.MINUTES);
         redisTemplate.delete(bdKey);
-
         return record0List;
 
         //key值存在设置过期时间，返回true，否则不做操作
