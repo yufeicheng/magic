@@ -1,17 +1,23 @@
 package com.magic.interview.service.file_handle;
 
 import com.google.common.collect.Lists;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.Test;
 
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.file.FileSystems;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.StandardOpenOption;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.text.Collator;
 import java.util.Comparator;
 import java.util.List;
@@ -138,20 +144,100 @@ public class FileHandle {
 
         //读取出来为原有格式布局
         Stream<String> lines = Files.lines(path);
-        lines.forEach(s-> System.out.println(s));
+        lines.forEach(s -> System.out.println(s));
 
         //读成字节数组
         byte[] bytes = Files.readAllBytes(path);
 
         //写入时指定拼接方式，否则会覆盖；集合中一个元素为一行
-        Path write = Files.write(path, Lists.newArrayList("测试", "BBB"),Charset.forName("utf-8"), StandardOpenOption.APPEND);
+        Path write = Files.write(path, Lists.newArrayList("测试", "BBB"), Charset.forName("utf-8"), StandardOpenOption.APPEND);
         System.out.println(write);
 
 
         //获取 BufferedWriter 进行写入
         BufferedWriter bufferedWriter = Files.newBufferedWriter(path, Charset.forName("utf-8"), StandardOpenOption.APPEND);
 
+        bufferedWriter.write("接着写");
+        bufferedWriter.flush();
+
+        /*InputStream inputStream = Files.newInputStream(path);
+
+        OutputStream outputStream = Files.newOutputStream(path);*/
 
     }
+
+    @Test
+    public void file_list() throws IOException {
+
+        Path path = Paths.get("D:/test");
+        //文件列表
+        Stream<Path> list = Files.list(path);
+        //list.forEach(System.out::println);
+
+        //文件查找
+        Stream<Path> finds = Files.find(path, 1, (p, b) -> StringUtils.endsWithAny(p.getFileName().toString(), "txt", "xml"));
+        //finds.forEach(System.out::println);
+
+        //文件遍历，查找利用PathMatcher
+        Files.walk(path).filter(p -> !Files.isDirectory(p)).forEach(p -> {
+
+            PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher("glob:**.{txt,xml,js}");
+            boolean matches = pathMatcher.matches(p);
+            if (matches) {
+                //System.out.println(p);
+            }
+        });
+
+
+        Path path2= Paths.get("D:/test");
+        //文件遍历
+        Files.walkFileTree(path2, new SimpleFileVisitor<Path>() {
+            @Override
+            public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
+                PathMatcher pathMatcher = FileSystems.getDefault().getPathMatcher("glob:**.{txt,xml,js}");
+                boolean matches = pathMatcher.matches(file);
+                if (matches) {
+                    System.out.println(file);
+                }
+                return FileVisitResult.CONTINUE;
+            }
+        });
+
+    }
+
+    /**
+     * glob 规则：
+     *
+     *      * 匹配零个或多个字符与名称组件，不跨越目录
+     *
+     *      ** 匹配零个或多个字符与名称组件，跨越目录（含子目录）
+     *
+     *      ? 匹配一个字符的字符与名称组件
+     *
+     *      \ 转义字符，例如\{表示匹配左花括号
+     *
+     *      [] 匹配方括号表达式中的范围，连字符(-)可指定范围。例如[ABC]匹配"A"、"B"和"C"；[a-z]匹配从"a"到"z"；[abce-g]匹配"a"、"b"、"c"、"e"、"f"、"g"；
+     *
+     *      [!...]匹配范围之外的字符与名称组件，例如[!a-c]匹配除"a"、"b"、"c"之外的任意字符
+     *
+     *      {}匹配组中的任意子模式，多个子模式用","分隔，不能嵌套
+     *
+     *
+     *
+     * SimpleFileVisitor类中方法：
+     *
+     *      preVisitDirectory 访问一个目录，在进入之前调用。
+     *      postVisitDirectory 一个目录的所有节点都被访问后调用。遍历时跳过同级目录或有错误发生，Exception会传递给这个方法
+     *      visitFile 文件被访问时被调用。该文件的文件属性被传递给这个方法
+     *      visitFileFailed 当文件不能被访问时，此方法被调用。Exception被传递给这个方法
+     *
+     * FileVisitResult行为结果：
+     *
+     *      CONTINUE 继续遍历
+     *      SKIP_SIBLINGS 继续遍历，但忽略当前节点的所有兄弟节点直接返回上一层继续遍历
+     *      SKIP_SUBTREE 继续遍历，但是忽略子目录，但是子文件还是会访问
+     *      TERMINATE 终止遍历
+     *
+     */
 
 }
