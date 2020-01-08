@@ -31,7 +31,7 @@ public class RateLimitService {
 
     public void limit() {
 
-        //申请1个令牌，阻塞知道申请成功，返回所需时间
+        //申请1个令牌，阻塞直到申请成功，返回所等待的时间
         double acquire = rateLimiter.acquire(1);
 
         log.info(String.valueOf(acquire));
