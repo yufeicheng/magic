@@ -1,5 +1,6 @@
 server:
   port: 8090
+#  port: 8091
 spring:
   application.name: interview
   profiles.active: dev
@@ -21,4 +22,5 @@ sms:
 
 # 指定log4j2作为日志记录
 logging:
-  config: classpath:log4j2.xml
+  config: classpath:log4j2-8090.xml
+#  config: classpath:log4j2-8091.xml

@@ -77,7 +77,7 @@ Accept: */*
 Cache-Control: no-cache
 
 ###
-GET {{url}}/lock/reSet
+GET {{url}}/lock/reSet/50
 Accept: */*
 Cache-Control: no-cache
 

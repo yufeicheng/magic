@@ -14,4 +14,11 @@ WORKDIR /app
 #RUN mvn clean compile package -Dmaven.test.skip=true
 
 ADD target/magic_interview.jar /app
-CMD  ["java", "-jar", "/app/magic_interview.jar"]
+
+# -Duser.timezone=GMT+08: 日志显示时间差8小时
+CMD  ["java", "-jar", "-Duser.timezone=GMT+08","/app/magic_interview.jar"]
+
+# 项目部署到docker时，修改
+#1 .MagicInterviewApplication: @PropertySource。
+#2. application.yml: 对应端口的日志文件；redis 连接。
+#3. application-dao-dev.yml: 数据库连接。
