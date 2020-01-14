@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
-@Mapper
+//@Mapper
 public interface UserMapper {
     long countByExample(UserExample example);
 
@@ -45,4 +45,8 @@ public interface UserMapper {
     @ResultType(User.class)
     @DataSource(DataSourceType.Type.FIRST)
     List<User> getUserList();
+
+    @Select("select * from user where id = #{id}")
+    @DataSource(DataSourceType.Type.FIRST)
+    User selectById(@Param("id") Integer id);
 }

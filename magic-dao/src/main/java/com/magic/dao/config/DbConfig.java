@@ -12,6 +12,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import javax.sql.DataSource;
 
@@ -63,6 +64,11 @@ public class DbConfig {
     @Bean
     public SqlSessionFactory sqlSessionFactory(@Qualifier("dynamicDataSource") DataSource dynamicDataSource) throws Exception {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
+
+        //在yml中配置Mybatis.mapper-locations,xml中sql执行不到，能执行@Select注解形式，故在此处代码配置
+        PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
+        factoryBean.setMapperLocations(resolver.getResources("classpath*:mapper/*.xml"));
+
         factoryBean.setDataSource(dynamicDataSource);
         return factoryBean.getObject();
     }

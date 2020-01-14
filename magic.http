@@ -46,7 +46,17 @@ GET {{url}}/encry/encryptInfo?key=68A61C323A3452544C4AEF6296D8BD95A
 Accept: */*
 Cache-Control: no-cache
 
-###### 动态数据源   docker run -d -v /data:/data --name magic-interview-8091 -p 8091:8091 magic-interview:1.1-8091
+###### 动态数据源
+
+# docker run -d -v /data:/data --name magic-interview-8091 -p 8091:8091 magic-interview:1.1-8091
+
+# docker run -d --name es  -v /usr/local/docker/es/config:/usr/share/elasticsearch/config -p 9200:9200 -p 9300:9300 -e "ES_JAVA_OPTS=-Xms512m -Xmx512m" -e "discovery.type=single-node" 8b4495052160
+
+#docker run -d --name es -p 9200:9200 -p 9300:9300 -e "ES_JAVA_OPTS=-Xms512m -Xmx512m" -e "discovery.type=single-node" 8b4495052160
+
+#docker pull docker.elastic.co/kibana/kibana:5.6.16
+
+#docker run --name kibana -p 5601:5601 -d 镜像id
 GET {{url}}/dynamic/getList
 Accept: */*
 Cache-Control: no-cache
@@ -81,4 +91,10 @@ GET {{url}}/lock/reSet/50
 Accept: */*
 Cache-Control: no-cache
 
+###
+###
+GET {{url}}/parameter/anno
+Accept: */*
+Cache-Control: no-cache
+sessionId: 2
 ###
