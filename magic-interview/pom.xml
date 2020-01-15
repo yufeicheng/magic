@@ -56,6 +56,20 @@
             <version>3.11.5</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>4.5.10</version>
+        </dependency>
+
+        <!-- 获取 HttpClient 上传文件时所用的 MultipartEntityBuilder -->
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpmime</artifactId>
+            <version>4.5.10</version>
+        </dependency>
+
+
     </dependencies>
     <build>
         <finalName>magic_interview</finalName>
