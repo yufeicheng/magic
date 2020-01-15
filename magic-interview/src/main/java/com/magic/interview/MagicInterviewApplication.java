@@ -16,6 +16,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * @author zhuruisong on 2018/4/24
@@ -24,6 +25,7 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @SpringBootApplication(scanBasePackages = {"com.magic.interview","com.magic.dao"})
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableSms
+@EnableAsync
 //获取配置文件加密盐值
 @PropertySource(value = {"file:D:/encrypt.properties"})
 //@PropertySource(value = {"file:/data/encrypt.properties"})

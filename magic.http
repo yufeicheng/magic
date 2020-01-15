@@ -98,3 +98,16 @@ Accept: */*
 Cache-Control: no-cache
 sessionId: 2
 ###
+
+###
+GET {{url}}/event/register
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json;charset=utf-8
+
+{
+"username": "ariana",
+  "pwd": "123"
+}
+
+###
