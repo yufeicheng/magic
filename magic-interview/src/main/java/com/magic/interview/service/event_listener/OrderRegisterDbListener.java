@@ -22,23 +22,40 @@ public class OrderRegisterDbListener implements SmartApplicationListener {
     @Autowired
     private UserMapper userMapper;
 
+    /**
+     * 接受到的监听事件类型的匹配
+     * @param eventType
+     * @return
+     */
     @Override
     public boolean supportsEventType(Class<? extends ApplicationEvent> eventType) {
         return eventType.isAssignableFrom(RegisterEvent.class);
     }
 
+    /**
+     * 事件发布者类匹配
+     * @param sourceType
+     * @return
+     */
     @Override
     public boolean supportsSourceType(Class<?> sourceType) {
         return sourceType.isAssignableFrom(BusinessService.class);
     }
 
+    /**
+     * 监听执行顺序
+     * @return
+     */
     @Override
     public int getOrder() {
         return 1;
     }
 
+    /**
+     *  supportsEventType && supportsSourceType 时才会执行
+     * @param event
+     */
     @Override
-    @Async
     public void onApplicationEvent(ApplicationEvent event) {
         RegisterEvent registerEvent = (RegisterEvent) event;
         User user = registerEvent.getUser();

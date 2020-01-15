@@ -30,7 +30,6 @@ public class OrderRegisterMsgListener implements SmartApplicationListener {
     }
 
     @Override
-    @Async
     public void onApplicationEvent(ApplicationEvent event) {
         RegisterEvent registerEvent = (RegisterEvent) event;
         User user = registerEvent.getUser();
