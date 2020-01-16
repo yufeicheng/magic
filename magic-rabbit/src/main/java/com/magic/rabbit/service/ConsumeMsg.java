@@ -38,6 +38,7 @@ public class ConsumeMsg {
             String msgId = commonMessage.getMsgId();
             MsgLog msgLog = msgLogMapper.selectByPrimaryKey(msgId);
             if (Objects.isNull(msgLog) || (Objects.nonNull(msgLog) && msgLog.getStatus().equals(MsgLogStatus.SPEND.getCode()))) {
+                channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
                 log.info(">>重复消费");
                 return;
             }
@@ -49,7 +50,7 @@ public class ConsumeMsg {
             MsgLog updateMsg = new MsgLog();
             updateMsg.setMsgId(msgId);
             updateMsg.setStatus(MsgLogStatus.SPEND.getCode());
-            //msgLogMapper.updateByPrimaryKeySelective(updateMsg);
+            msgLogMapper.updateByPrimaryKeySelective(updateMsg);
             channel.basicAck(message.getMessageProperties().getDeliveryTag(), false);
 
         } catch (Exception e) {

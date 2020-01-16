@@ -63,7 +63,7 @@ public class MqConfig {
                 msgLog.setMsgId(msgId);
                 //投递成功
                 msgLog.setStatus(MsgLogStatus.DELIVER_SUCCESS.getCode());
-                //msgLogMapper.updateByPrimaryKeySelective(msgLog);
+                msgLogMapper.updateByPrimaryKeySelective(msgLog);
             } else {
                 log.info("消息发送到Exchange失败, {}, cause: {}", correlationData, cause);
             }
