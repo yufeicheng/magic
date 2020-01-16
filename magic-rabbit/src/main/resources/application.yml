@@ -1,0 +1,24 @@
+server:
+  port: 8092
+spring:
+  application.name: rabbit
+  profiles.active: dev
+  rabbitmq:
+    host: 211.159.175.105
+    port: 5672
+    listener:
+      simple:
+        prefetch: 100
+        acknowledge-mode: manual
+    publisher-confirms: true
+    publisher-returns: true
+    username: ENC(Q3xbCw1GlA/fN7oB5U0zKQ==)
+    password: ENC(nSoarialw9eworOldHtNdg==)
+
+---
+spring.profiles: dev
+logging:
+  config: classpath:log4j2.xml
+spring:
+  profiles:
+    include: dao-dev

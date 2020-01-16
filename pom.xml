@@ -13,6 +13,7 @@
         <module>magic-interface</module>
         <module>magic-interview</module>
         <module>magic-dao</module>
+        <module>magic-rabbit</module>
     </modules>
     <packaging>pom</packaging>
 
@@ -152,7 +153,16 @@
             <artifactId>spring-boot-starter-data-redis</artifactId>
             <version>${spring-boot.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+        </dependency>
+        <!-- 配置文件加密 -->
+        <dependency>
+            <groupId>com.github.ulisesbocchio</groupId>
+            <artifactId>jasypt-spring-boot-starter</artifactId>
+            <version>2.1.2</version>
+        </dependency>
     </dependencies>
 
     <!--

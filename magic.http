@@ -42,7 +42,7 @@ Cache-Control: no-cache
 
 ###
 ### 获取加密串
-GET {{url}}/encry/encryptInfo?key=68A61C323A3452544C4AEF6296D8BD95A
+GET {{url}}/encry/encryptInfo?key=182
 Accept: */*
 Cache-Control: no-cache
 
@@ -57,6 +57,10 @@ Cache-Control: no-cache
 #docker pull docker.elastic.co/kibana/kibana:5.6.16
 
 #docker run --name kibana -p 5601:5601 -d 镜像id
+
+# docker pull rabbitmq:management
+# docker run -d --hostname my-rabbit --name rabbit -e RABBITMQ_DEFAULT_USER=taylor -e RABBITMQ_DEFAULT_PASS=182 -p 15672:15672 -p 5672:5672 fe3459a432a4
+
 GET {{url}}/dynamic/getList
 Accept: */*
 Cache-Control: no-cache
@@ -111,3 +115,15 @@ Content-Type: application/json;charset=utf-8
 }
 
 ###
+###
+GET {{url}}/mq/send
+Accept: */*
+Cache-Control: no-cache
+
+###测试：
+# 发送Exchange 失败
+# 路由queue 失败
+# 不手动确认
+# 消费幂等
+# 消费异常，basicNack
+# ConfirmCallback没有被执行

@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.jasypt.util.text.BasicTextEncryptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.amqp.RabbitAutoConfiguration;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
@@ -19,10 +20,10 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
- * @author zhuruisong on 2018/4/24
+ * @author
  * @since 1.0
  */
-@SpringBootApplication(scanBasePackages = {"com.magic.interview","com.magic.dao"})
+@SpringBootApplication(scanBasePackages = {"com.magic.interview","com.magic.dao"},exclude = {RabbitAutoConfiguration.class})
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableSms
 @EnableAsync
