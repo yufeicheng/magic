@@ -51,7 +51,7 @@ public class PublishMsgService {
         msgLog.setMsg(JSONObject.toJSONString(commonMessage));
         msgLog.setExchange(Constant.COMMON_EXCHANGE);
         msgLog.setRoutingKey(Constant.COMMON_ROUTING_KEY);
-        msgLog.setNextTryTime(Date.from(LocalDateTime.now().plus(1, ChronoUnit.MINUTES).atZone(ZoneId.systemDefault()).toInstant()));
+        msgLog.setNextTryTime(Date.from(LocalDateTime.now().plus(2, ChronoUnit.MINUTES).atZone(ZoneId.systemDefault()).toInstant()));
         msgLogMapper.insertSelective(msgLog);
 
         rabbitTemplate.convertAndSend(Constant.COMMON_EXCHANGE, Constant.COMMON_ROUTING_KEY, commonMessage, new CorrelationData(msgId));

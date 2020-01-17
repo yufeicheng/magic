@@ -9,8 +9,11 @@ spring:
     listener:
       simple:
         prefetch: 100
+        #手动确认
         acknowledge-mode: manual
+    #开启消息投递->Exchange的回调
     publisher-confirms: true
+    #开启Exchange->Queue的回调
     publisher-returns: true
     username: ENC(Q3xbCw1GlA/fN7oB5U0zKQ==)
     password: ENC(nSoarialw9eworOldHtNdg==)
