@@ -21,7 +21,7 @@ public class RedissonService {
     @Autowired
     private RedissonClient redissonClient;
 
-    private int num = 5;
+    private int num = 50;
 
     private RLock rLock;
 
@@ -46,21 +46,31 @@ public class RedissonService {
         //采用此方式
         boolean lock = rLock.tryLock(6, TimeUnit.SECONDS);
 
-        if (lock && num > 0) {
+        //lock && num >0 条件分开，避免获得锁后 因为num =0 而锁没有执行unlock，导致watchdog不停重设锁过期时间30s，锁得不到释放
+        if (lock) {
             try {
-                log.info(">>获得数字-- ：{}", num);
-                //业务执行需40s
-                //Thread.sleep(40000);
-                Thread.sleep(100);
-                num--;
-            }  finally {
+                if (num > 0) {
+
+                    log.info(">>获得数字-- ：{}", num);
+                    //业务执行需40s,使用不设过期时间的tryLock时，会默认30s过期，watchdog会不断延时锁过期时间
+                    //Thread.sleep(40000);
+                    Thread.sleep(100);
+                    num--;
+                }
+
+            } finally {
+                log.info("解锁");
                 rLock.unlock();
             }
         } else {
             log.info(">>未获得");
         }
+
     }
 
+    /**
+     * jmeter: 50个资源，150个线程0.5秒内请求，会出现>50显示获得数字
+     */
     public void noLock() {
         if (num <= 0) {
             log.info("已抢完");
