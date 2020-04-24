@@ -200,8 +200,8 @@ public class TestC {
         Stream<Integer> stream2 = Stream.of(4, 5, 6);
         Stream<Integer> stream3 = Stream.of(7, 8, 9);
 
-        List<Integer> collect = Stream.concat(stream, stream2).collect(Collectors.toList());
-        System.out.println(collect);
+      /*  List<Integer> collect = Stream.concat(stream, stream2).collect(Collectors.toList());
+        System.out.println(collect);*/
 
         List<Integer> collect1 = Stream.of(stream, stream2, stream3).flatMap(Function.identity()).collect(Collectors.toList());
         System.out.println(collect1);
