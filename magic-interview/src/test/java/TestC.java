@@ -1,5 +1,6 @@
 import com.google.common.collect.Lists;
 import com.magic.interview.service.validated.LombokDto;
+import jodd.template.StringTemplateParser;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.collections4.functors.AnyPredicate;
 import org.apache.commons.io.FileUtils;
@@ -7,22 +8,22 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
+import org.aspectj.weaver.ast.Var;
 import org.jasypt.util.text.BasicTextEncryptor;
 import org.junit.Test;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
+import sun.jvm.hotspot.debugger.sparc.SPARCThreadContext;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -208,5 +209,48 @@ public class TestC {
 
     }
 
+    @Test
+    public void list() {
+        ArrayList<String> list = new ArrayList<>();
+        list.add("A");
+        list.add("B");
+        list.add("C");
+        System.out.println(list);
+        Integer a = 1;
+        //int a = 1;
+        //包装类删除时，查找的是对象 而不是下标
+        list.remove(a);
+        System.out.println(list);
+
+    }
+
+
+    @Test
+    public void html() throws IOException {
+
+        String uri = "/Users/chengyufei/Downloads/project/self/Gitee/magic/magic-interview/src/test/java/top.html";
+
+       /* List<String> list = Files.readAllLines(Paths.get(uri), Charset.forName("utf-8"));
+        String htmls =list.toString();
+        System.out.println(htmls);*/
+
+        StringBuilder builder = new StringBuilder();
+        Stream<String> lines = Files.lines(Paths.get(uri));
+        lines.forEach(s -> builder.append(s));
+
+        String htmls = builder.toString();
+
+        HashMap<String, String> map = new HashMap<>();
+        map.put("name", "榜单");
+        map.put("city", "北京");
+
+        StringTemplateParser templateParser = new StringTemplateParser();
+        String parse = templateParser.parse(htmls, str -> map.get(str));
+        System.out.println(parse);
+
+
+
+
+    }
 
 }
