@@ -2,6 +2,7 @@ import com.google.common.collect.Lists;
 import org.apache.commons.lang3.tuple.Pair;
 import org.junit.Test;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.MonthDay;
@@ -42,9 +43,8 @@ public class CodingStandard {
     /**
      * 1.List -> array: 使用 toArray(T[]);
      * 2.直接使用toArray ，返回Object[]，强转会：ClassCastException
-     *
-     *3。array -> list:  Arrays.asList 返回Arrays内部类ArrayList，并没有实现集合的修改方法，add/remove/clear 【UnsupportedOperationException】
-     *
+     * <p>
+     * 3。array -> list:  Arrays.asList 返回Arrays内部类ArrayList，并没有实现集合的修改方法，add/remove/clear 【UnsupportedOperationException】
      */
     @Test
     public void arrayList() {
@@ -64,7 +64,7 @@ public class CodingStandard {
 
     /**
      * List.subList 后 返回ArrayList内部类SubList：
-     *
+     * <p>
      * 1.不可强转为ArrayList【ClassCastException】
      * 2. 原集合list 不能 add 、remove 【ConcurrentModificationException】
      * 3. 子集合的 add 、remove 操作反映到原集合上
@@ -94,6 +94,9 @@ public class CodingStandard {
     }
 
 
+    /**
+     * 使用BigDecimal对象时采用String参数的构造方式
+     */
     @Test
     public void compareFloat() {
 
@@ -112,4 +115,58 @@ public class CodingStandard {
         System.out.println(System.currentTimeMillis());
 
     }
+
+    /**
+     * switch 传入String等包装类条件时，非空判断否则 NPE
+     */
+    @Test
+    public void switchString() {
+        System.out.println(sw(null));
+    }
+
+    private String sw(Integer s) {
+        String res;
+        switch (s) {
+           /* case "A":
+                res = "A";
+                break;
+            case  "B":
+                res = "B";
+                break;
+            default:
+                res = "default";
+                break;*/
+            case 1:
+                res = "A";
+                break;
+            case 2:
+                res = "B";
+                break;
+            default:
+                res = "default";
+                break;
+        }
+        return res;
+    }
+
+
+    /**
+     * 三目运算符： 注意表达式1 和 表达式2的类型，可能由于自动拆箱导致NPE
+     * 类型对齐的自动拆箱操作：
+     * 1。表达式1和2中只要有一个是原始类型。
+     * 2. 表达式1和2类型不一致时，会强制拆箱升级成范围更大的类型。
+     */
+    @Test
+    public void sanmu() {
+
+        Integer a = 1;
+        Integer b = 2;
+        Integer c = null;
+        boolean flag = false;
+
+        //NPE: a*b为int类型
+        int i = flag ? a * b : c;
+
+    }
+
 }
