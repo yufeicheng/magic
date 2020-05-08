@@ -4,7 +4,10 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.time.MonthDay;
+import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -19,8 +22,9 @@ import java.util.stream.Collectors;
 public class CodingStandard {
 
     /**
-     * 1.Collectors.toMap 时选择 有 mergeFunction 参数的方法，避免主键冲突错误， 返回 {version=V};
-     * 2.转map时 value=null 会报NPE,转时候注意非空判断
+     * 1.Collectors.toMap 时选择 有 mergeFunction 参数的方法，定义value处理策略，避免主键冲突错误， 返回 {version=V};
+     * 2.转map时 value=null 会报NPE,转时候注意非空判断；
+     * 3.map. keySet entrySet  values 返回的集合不能进行添加操作【UnsupportedOperationException】
      */
     @Test
     public void toMap() {
@@ -33,24 +37,62 @@ public class CodingStandard {
         Map<String, String> map = list.stream().filter(p -> Objects.nonNull(p.getValue())).collect(Collectors.toMap(Pair::getKey, Pair::getValue, (v1, v2) -> v2));
         System.out.println(map);
 
-
-        List<Pair<String, String>> pairs = list.subList(0, 2);
-
-        list.add(Pair.of("version", "D"));
-        System.out.println(pairs);
-
     }
 
     /**
-     * List -> array: 使用 toArray(T[])
+     * 1.List -> array: 使用 toArray(T[]);
+     * 2.直接使用toArray ，返回Object[]，强转会：ClassCastException
+     *
+     *3。array -> list:  Arrays.asList 返回Arrays内部类ArrayList，并没有实现集合的修改方法，add/remove/clear 【UnsupportedOperationException】
+     *
      */
     @Test
     public void arrayList() {
 
         ArrayList<String> list = Lists.newArrayList("A", "B");
         String[] arr = list.toArray(new String[0]);
+        System.out.println(arr.length);
+
+        //不可强转
+        //String[] strings = (String[]) list.toArray();
+
+        List<String> strings = Arrays.asList(arr);
+        //不可操作
+        //strings.add("C");
 
     }
+
+    /**
+     * List.subList 后 返回ArrayList内部类SubList：
+     *
+     * 1.不可强转为ArrayList【ClassCastException】
+     * 2. 原集合list 不能 add 、remove 【ConcurrentModificationException】
+     * 3. 子集合的 add 、remove 操作反映到原集合上
+     * 4. list.addAll 时，要对传入集合非空判断，addAll时会对传入集合 toArray 处理，所以 NPE
+     */
+    @Test
+    public void subList() {
+        ArrayList<Pair<String, String>> list = new ArrayList<>();
+        list.add(Pair.of("version", "A"));
+        list.add(Pair.of("version2", null));
+
+        List<Pair<String, String>> pairs = list.subList(0, 2);
+        //不可强转ArrayList
+        //ArrayList<Pair<String, String>> pairs = (ArrayList<Pair<String, String>>) list.subList(0, 2);
+
+        //不可操作原集合
+        //list.add(Pair.of("version", "A"));
+
+        //可反映到原集合
+        pairs.remove(1);
+        pairs.add(Pair.of("version3", "D"));
+        System.out.println(pairs);
+        System.out.println(list);
+
+        List addLIst = null;
+        //list.addAll(addLIst);
+    }
+
 
     @Test
     public void compareFloat() {
