@@ -1,3 +1,5 @@
+import com.google.common.base.Joiner;
+import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.magic.interview.service.validated.LombokDto;
 import jodd.template.StringTemplateParser;
@@ -6,6 +8,8 @@ import org.apache.commons.collections4.functors.AnyPredicate;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
 import org.jasypt.util.text.BasicTextEncryptor;
@@ -20,6 +24,7 @@ import java.lang.reflect.Field;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -28,6 +33,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
@@ -146,24 +152,48 @@ public class TestC {
         //洗牌
         Collections.shuffle(list_1);
 
+        ArrayList<String> list_3 = Lists.newArrayList("a", "b", "c");
+        String[] arrays = {"d", "e"};
+        //将数组直接添加到集合
+        CollectionUtils.addAll(list_3, arrays);
+        System.out.println(list_3);
+
     }
 
     /**
-     * IO
+     * commons-io
+     * 文件操作：FileUtils
+     * IO操作： IOUtils
      */
     @Test
     public void io() throws IOException {
 
+        //读取指定文件所有行到List中
+        List<String> strings = FileUtils.readLines(new File("D:/新建文本文档.txt"), "utf-8");
+        System.out.println(strings);
+
+        //string 写到文件中,覆盖原文本
+        FileUtils.writeStringToFile(new File("D:/新建文本文档.txt"), "写数据到文件中", "utf-8");
+
+        //在原文本后拼接
+        FileUtils.writeStringToFile(new File("D:/新建文本文档.txt"), "写数据到文件中333dd", "utf-8",true);
+
+        FileUtils.writeLines(new File("D:/新建文本文档.txt"),Lists.newArrayList("接口连接"),"utf-8",true);
+
+        //获取路径下以固定后缀的文件
+        File director = new File("D:/test");
+        Collection<File> files = FileUtils.listFiles(director, new String[]{"txt"}, true);
+        System.out.println(files);
+
+
         //流中读取到List中
         List<String> readLines = IOUtils.readLines(new FileInputStream(new File("D:/新建文本文档.txt")), "utf-8");
-        System.out.println(readLines);
 
-        //文件读到List中
-        List<String> strings = FileUtils.readLines(new File("D:/新建文本文档.txt"), "utf-8");
+        // 将输入流信息全部输出到字节数组中
+        //byte[] b = IOUtils.toByteArray(request.getInputStream());
 
-        //string 写到文件中
-        FileUtils.writeStringToFile(new File("D:/xx.txt"), "写数据到文件中", "utf-8");
-
+        // 将输入流信息转化为字符串
+        //String resMsg = IOUtils.toString(request.getInputStream());
     }
 
     @Test
@@ -251,9 +281,54 @@ public class TestC {
         String parse = templateParser.parse(htmls, str -> map.get(str));
         System.out.println(parse);
 
-
-
-
     }
+
+    /**
+     * 字符串分割：StringUtils \ Splitter
+     */
+    @Test
+    public void split() {
+
+        String s = "a,,b,c, ,d";
+        //["a","b","c"," ","d"]
+        String[] split = StringUtils.split(s, ",");
+        //["a","","b","c"," ","d"]
+        String[] strings = StringUtils.splitByWholeSeparatorPreserveAllTokens(s, ",");
+
+        //["a","b","c"," ","d"]
+        List<String> strings1 = Splitter.on(",").omitEmptyStrings().splitToList(s);
+
+        //["a","","b","c"," ","d"]
+        List<String> strings2 = Splitter.on(",").splitToList(s);
+
+        //["a","b","c","d"]
+        List<String> strings3 = Splitter.on(",").omitEmptyStrings().trimResults().splitToList(s);
+
+        //Joiner.on("-").skipNulls().join()
+
+        System.out.println();
+    }
+
+    /**
+     * Apache - commons-lang3
+     * jdk8 以下 时间操作用：DateUtils \ DateFormatUtils
+     */
+    @Test
+    public void time() {
+        Date now = new Date();
+        Date date = DateUtils.addDays(now, 3);
+
+        //截断：2020-05-09 00:00:00
+        Date dateTruncate = DateUtils.truncate(now, Calendar.DATE);
+
+        //返回整点时刻，忽略分钟和秒：2020-05-09 10:00:00
+        Date hourTruncate = DateUtils.truncate(now, Calendar.HOUR);
+
+        String format = DateFormatUtils.format(hourTruncate, "yyyy-MM-dd HH:mm:ss");
+
+        System.out.println(format);
+    }
+
+
 
 }
