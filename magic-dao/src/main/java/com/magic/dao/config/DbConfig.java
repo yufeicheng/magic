@@ -21,7 +21,7 @@ import javax.sql.DataSource;
  * @create 2019-12-03 17:05
  **/
 @Configuration
-@MapperScan(value = "com.magic.dao.mapper")
+@MapperScan(basePackages = {"com.magic.dao.mapper"},sqlSessionFactoryRef = "dynamicSqlSessionFactory")
 public class DbConfig {
 
     @Bean(name = "first")
@@ -61,14 +61,14 @@ public class DbConfig {
      * @return
      * @throws Exception
      */
-    @Bean
+    @Bean(name="dynamicSqlSessionFactory")
     public SqlSessionFactory sqlSessionFactory(@Qualifier("dynamicDataSource") DataSource dynamicDataSource) throws Exception {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
 
         //在yml中配置Mybatis.mapper-locations,xml中sql执行不到，能执行@Select注解形式，故在此处代码配置
         PathMatchingResourcePatternResolver resolver = new PathMatchingResourcePatternResolver();
         factoryBean.setMapperLocations(resolver.getResources("classpath*:mapper/*.xml"));
-
+        factoryBean.setTypeAliasesPackage("com.magic.dao.model");
         factoryBean.setDataSource(dynamicDataSource);
         return factoryBean.getObject();
     }
