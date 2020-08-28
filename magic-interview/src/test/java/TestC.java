@@ -11,6 +11,10 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.jasypt.util.text.BasicTextEncryptor;
 import org.junit.Test;
 import org.springframework.beans.BeanWrapper;
@@ -327,6 +331,14 @@ public class TestC {
         System.out.println(format);
     }
 
+    @Test
+    public void client() throws IOException {
+        CloseableHttpClient client = HttpClientBuilder.create().build();
+        String uri = "https://api.8.jrj.com.cn/oauth/token?grant_type=client_credentials&client_id=mchhld68sBoDGZiynhn&client_secret=glUTt9aQtKZmXnRW1saTAu9oGJkPa4oo";
+        HttpGet httpGet = new HttpGet(uri);
+        CloseableHttpResponse response = client.execute(httpGet);
+        System.out.println();
+    }
 
 
 }

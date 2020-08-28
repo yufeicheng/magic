@@ -14,6 +14,7 @@ import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.ValidationException;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Set;
 
 /**
@@ -33,8 +34,8 @@ public class ValidateExceptionhandle {
             Set<ConstraintViolation<?>> violations = ((ConstraintViolationException) ex).getConstraintViolations();
             violations.stream().forEach(v->log.error(v.getMessage()));
         }
-        try {
-            response.getWriter().write(JSON.toJSONString(Result.fail("bad request")));
+        try(PrintWriter writer = response.getWriter()) {
+            writer.write(JSON.toJSONString(Result.fail("bad request")));
         } catch (IOException e) {
             e.printStackTrace();
         }

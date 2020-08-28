@@ -1,0 +1,7 @@
+#spring:
+#  shardingsphere:
+#    datasource:
+#      names:
+#      orders:
+#        type:
+
