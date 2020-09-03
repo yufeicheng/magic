@@ -6,6 +6,11 @@ import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.magic.interview.Config.GsonIgnore;
 import org.jasypt.util.text.BasicTextEncryptor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -18,6 +23,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.scheduling.annotation.EnableAsync;
+
+import java.util.Objects;
 
 /**
  * @author
@@ -68,4 +75,20 @@ public class MagicInterviewApplication {
         //redisTemplate.afterPropertiesSet();
         return redisTemplate;
     }
+    
+  @Bean(name="gson")
+  public Gson initGson(){
+      return new GsonBuilder().setExclusionStrategies(new ExclusionStrategy() {
+          @Override
+          public boolean shouldSkipField(FieldAttributes f) {
+              return Objects.nonNull(f.getAnnotation(GsonIgnore.class));
+          }
+
+          @Override
+          public boolean shouldSkipClass(Class<?> clazz) {
+              return false;
+          }
+      }).create();
+  }
+    
 }

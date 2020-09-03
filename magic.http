@@ -10,9 +10,47 @@ Cache-Control: no-cache
 
 //////////////////////////////////////////- interview -//////////////////////////////////////////
 ###
-GET {{url}}/non/testNonNull?name=" "&id=1&size=a,b,c,d,f,g
+GET {{url}}/non/testNonNull/123.1?name=''&id=2&size=a,b,c,d,f
 Accept: */*
 Cache-Control: no-cache
+
+###
+POST {{url}}/non/list
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/json
+
+[
+{"cid": 1,
+  "name": "北",
+  "beginTime": "2019-10-10",
+  "overTime": "2019-10-10",
+  "job": [
+    {
+      "jobId": 2,
+      "jobName": "上海"
+    },
+    {
+      "jobId": 3,
+      "jobName": "上"
+    }
+  ]},
+  {"cid": 1,
+  "name": "北京",
+  "beginTime": "2019-10-10",
+  "overTime": "2019-10-10",
+  "job": [
+    {
+      "jobId": 2,
+      "jobName": "上海"
+    },
+    {
+      "jobId": 3,
+      "jobName": "上"
+    }
+  ]}
+]
+
 
 ###
 POST {{url}}/non/myCheck
@@ -22,9 +60,19 @@ Content-Type: application/json
 
 {
   "cid": 1,
-  "name": "北京",
+  "name": "北",
   "beginTime": "2019-10-10",
-  "overTime": "2019-10-10"
+  "overTime": "2019-10-10",
+  "job": [
+    {
+      "jobId": 2,
+      "jobName": "上海"
+    },
+    {
+      "jobId": 3,
+      "jobName": "上"
+    }
+  ]
 
 }
 
@@ -127,3 +175,10 @@ Cache-Control: no-cache
 # 消费幂等
 # 消费异常，basicNack
 # ConfirmCallback没有被执行
+
+
+
+###
+GET {{url}}/httpClient/restTemplate
+Accept: */*
+Cache-Control: no-cache

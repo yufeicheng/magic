@@ -1,5 +1,6 @@
 package com.magic.base.dto;
 
+import com.magic.base.dto.enums.RespStatusEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -35,15 +36,15 @@ public class Result {
 
     public static Result success(Object data) {
         Result result = new Result();
-        result.setCode(0);
-        result.setMsg("成功");
+        result.setCode(RespStatusEnum.OK.getStatus());
+        result.setMsg(RespStatusEnum.OK.getDesc());
         result.setData(data);
         return result;
     }
 
-    public static Result fail(String msg) {
+    public static Result failParameter(String msg) {
         Result result = new Result();
-        result.setCode(1);
+        result.setCode(RespStatusEnum.PARAMETER_ERROR.getStatus());
         result.setMsg(msg);
         return result;
     }
