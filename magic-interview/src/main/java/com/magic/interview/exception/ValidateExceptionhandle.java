@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.magic.base.dto.Result;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.NotReadablePropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -76,4 +77,13 @@ public class ValidateExceptionhandle {
 		}*/
 	}
 
+
+	@ExceptionHandler(value = NotReadablePropertyException.class)
+	@ResponseStatus(code = HttpStatus.OK)
+	@ResponseBody
+	public Result handle(NotReadablePropertyException ex,HttpServletResponse response) {
+
+		log.error(ex.getMessage());
+		return Result.failParameter(ex.getMessage());
+	}
 }

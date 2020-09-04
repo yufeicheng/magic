@@ -8,6 +8,7 @@ import com.magic.interview.service.use_custom_starter.UseStarterService;
 import com.magic.interview.service.validated.LombokDto;
 import com.magic.interview.service.validated.MyCheck;
 import com.magic.interview.service.validated.MyCheckValidated;
+import com.magic.interview.service.validated.ValidationList;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
@@ -84,7 +85,7 @@ public class ValidatedController {
     }
 
     @PostMapping("/list")
-    public Result validateListDto(@RequestBody List<LombokDto> dtos) {
+    public Result validateListDto(@RequestBody @Validated(LombokDto.GroupA.class) ValidationList<LombokDto> dtos) {
         return Result.success(dtos);
     }
 

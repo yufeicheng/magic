@@ -32,7 +32,7 @@ import java.util.List;
  **/
 @Getter
 @Setter
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PUBLIC)
 @ToString
 //自定义时间校验
 @MyCheck(startTime = "beginTime", endTime = "overTime", message = "结束时间不能早于开始时间")
