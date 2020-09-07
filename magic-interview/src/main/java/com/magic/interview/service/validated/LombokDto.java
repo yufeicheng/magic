@@ -35,7 +35,7 @@ import java.util.List;
 @FieldDefaults(level = AccessLevel.PUBLIC)
 @ToString
 //自定义时间校验
-@MyCheck(startTime = "beginTime", endTime = "overTime", message = "结束时间不能早于开始时间")
+@MyCheck(groups = LombokDto.GroupA.class, startTime = "beginTime", endTime = "overTime", message = "结束时间不能早于开始时间")
 public class LombokDto implements Serializable {
 
 
@@ -84,11 +84,11 @@ public class LombokDto implements Serializable {
 		public Job() {
 		}
 
-		@Range(min = 2, max = 5,groups = GroupA.class)
-		@Digits(integer = 1, fraction = 0,groups = GroupA.class)
+		@Range(min = 2, max = 5, groups = GroupA.class)
+		@Digits(integer = 1, fraction = 0, groups = GroupA.class)
 		private BigDecimal jobId;
 
-		@Size(min = 2, max = 10,groups = GroupA.class)
+		@Size(min = 2, max = 10, groups = GroupA.class)
 		private String jobName;
 	}
 

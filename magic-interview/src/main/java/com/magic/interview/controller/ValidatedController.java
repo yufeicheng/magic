@@ -84,6 +84,11 @@ public class ValidatedController {
         return Result.success(dto);
     }
 
+    /**
+     * RequestBody 接受List类型的Dto时，需要自定义List
+     * @param dtos
+     * @return
+     */
     @PostMapping("/list")
     public Result validateListDto(@RequestBody @Validated(LombokDto.GroupA.class) ValidationList<LombokDto> dtos) {
         return Result.success(dtos);
