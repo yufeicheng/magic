@@ -17,7 +17,8 @@ import javax.validation.ValidatorFactory;
 public class ValidatedConfig {
 
     /**
-     * 有多个校验时，有一个校验失败就无需继续往下校验了
+     * 快速失败：有多个校验时，有一个校验失败就无需继续往下校验了;
+     * 默认会校验完所有字段
      * @return
      */
     @Bean
