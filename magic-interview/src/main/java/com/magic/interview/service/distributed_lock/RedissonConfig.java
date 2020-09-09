@@ -1,4 +1,4 @@
-package com.magic.interview.Config;
+package com.magic.interview.service.distributed_lock;
 
 import org.jasypt.util.text.BasicTextEncryptor;
 import org.redisson.Redisson;
