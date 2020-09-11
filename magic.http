@@ -182,3 +182,20 @@ Cache-Control: no-cache
 GET {{url}}/httpClient/restTemplate
 Accept: */*
 Cache-Control: no-cache
+
+###
+GET {{url}}/jwt/login/1?uid=123456
+Accept: application/json
+Cache-Control: no-cache
+api-version: 2
+#code:
+
+> {% client.global.set("token", response.body.data) %}
+
+###
+GET {{url}}/jwt/getInfo
+Accept: */*
+Cache-Control: no-cache
+Authorization: Bearer {{token}}
+#Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI0NTY3ODkiLCJ2ZXJzaW9uIjoxMiwiZXhwIjoxNTk5NzA2MjE2fQ==.fgJYmNbwvsJdLahZ9mUYjDSe-B0Dls1bFIg-99DOoPA
+

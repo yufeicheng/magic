@@ -23,10 +23,13 @@ import org.springframework.beans.BeanWrapperImpl;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Collections;
@@ -35,6 +38,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -338,6 +342,19 @@ public class TestC {
         HttpGet httpGet = new HttpGet(uri);
         CloseableHttpResponse response = client.execute(httpGet);
         System.out.println();
+    }
+
+    @Test
+    public void jwtToken() throws UnsupportedEncodingException {
+
+        //eyJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxMjM0NTYiLCJ2ZXJzaW9uIjoxMiwiZXhwIjoxNTk5NzA2MjE2fQ.fgJYmNbwvsJdLahZ9mUYjDSe-B0Dls1bFIg-99DOoPA
+
+        String str = "eyJ1aWQiOiIxMjM0NTYiLCJ2ZXJzaW9uIjoxMiwiZXhwIjoxNTk5NzA2MjE2fQ";
+        byte[] decode = Base64.getDecoder().decode(str);
+        System.out.println(new String(decode,"utf-8"));
+
+        //System.out.println(Base64.getEncoder().encodeToString("{\"uid\":\"456789\",\"version\":12,\"exp\":1599706216}".getBytes(StandardCharsets.UTF_8)));
+
     }
 
 

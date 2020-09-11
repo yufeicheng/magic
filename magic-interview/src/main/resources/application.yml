@@ -24,3 +24,6 @@ sms:
 logging:
   config: classpath:log4j2-8090.xml
 #  config: classpath:log4j2-8091.xml
+
+jwt:
+  secret: jwt:secret

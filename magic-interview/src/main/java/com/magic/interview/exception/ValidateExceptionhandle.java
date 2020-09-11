@@ -3,6 +3,7 @@ package com.magic.interview.exception;
 import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.magic.base.dto.Result;
+import com.magic.base.dto.enums.RespStatusEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.NotReadablePropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,7 @@ public class ValidateExceptionhandle {
 
 	/**
 	 * requestParam/PathVariable形式校验异常
+	 *
 	 * @param ex
 	 * @param response
 	 */
@@ -43,7 +45,7 @@ public class ValidateExceptionhandle {
 	public Result handle(ConstraintViolationException ex, HttpServletResponse response) {
 
 		log.error(ex.getMessage());
-		return Result.failParameter(ex.getMessage());
+		return Result.fail(RespStatusEnum.PARAMETER_ERROR.getStatus(), ex.getMessage());
 		/*response.setContentType("application/json; charset=UTF-8");
 		try (PrintWriter writer = response.getWriter()) {
 			writer.write(gson.toJson(Result.failParameter(ex.getMessage())));
@@ -53,20 +55,20 @@ public class ValidateExceptionhandle {
 	}
 
 	/**
-	 * @RequestBody形式校验异常
 	 * @param ex
 	 * @param response
+	 * @RequestBody形式校验异常
 	 */
 	@ExceptionHandler(value = MethodArgumentNotValidException.class)
 	@ResponseStatus(code = HttpStatus.OK)
 	@ResponseBody
-	public Result handle(MethodArgumentNotValidException ex,HttpServletResponse response) {
+	public Result handle(MethodArgumentNotValidException ex, HttpServletResponse response) {
 		BindingResult bindingResult = ex.getBindingResult();
 		StringBuilder stringBuilder = new StringBuilder();
 		bindingResult.getFieldErrors().stream().forEach(b -> stringBuilder.append(b.getField()).append(":").append(b.getDefaultMessage()).append(";"));
 		String error = stringBuilder.toString();
 		log.error(error);
-		return Result.failParameter(error);
+		return Result.fail(RespStatusEnum.PARAMETER_ERROR.getStatus(), error);
 	/*
 	使用 @ResponseBody 替代
 
@@ -81,9 +83,9 @@ public class ValidateExceptionhandle {
 	@ExceptionHandler(value = NotReadablePropertyException.class)
 	@ResponseStatus(code = HttpStatus.OK)
 	@ResponseBody
-	public Result handle(NotReadablePropertyException ex,HttpServletResponse response) {
+	public Result handle(NotReadablePropertyException ex, HttpServletResponse response) {
 
 		log.error(ex.getMessage());
-		return Result.failParameter(ex.getMessage());
+		return Result.fail(RespStatusEnum.PARAMETER_ERROR.getStatus(), ex.getMessage());
 	}
 }

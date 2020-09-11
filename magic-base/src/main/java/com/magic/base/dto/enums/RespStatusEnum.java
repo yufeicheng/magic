@@ -8,6 +8,8 @@ public enum RespStatusEnum {
 	OK(0, "success"),
 	ERROR(1000, "系统正忙，请稍后再试"),
 	PARAMETER_ERROR(2000, "参数错误"),
+	NO_TOKEN(2100, "没有token"),
+	TOKEN_FAILURE(2200, "非法token"),
 	NOT_LOGIN(3000, "未登录"),
 	;
 
