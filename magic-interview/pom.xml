@@ -77,6 +77,13 @@
             <version>0.9.1</version>
         </dependency>
 
+<!--        RSA 2048位 加解密使用-->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcpkix-jdk15on</artifactId>
+            <version>1.64</version>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>magic_interview</finalName>
