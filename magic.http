@@ -199,3 +199,8 @@ Cache-Control: no-cache
 Authorization: Bearer {{token}}
 #Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiI0NTY3ODkiLCJ2ZXJzaW9uIjoxMiwiZXhwIjoxNTk5NzA2MjE2fQ==.fgJYmNbwvsJdLahZ9mUYjDSe-B0Dls1bFIg-99DOoPA
 
+
+###
+GET {{url}}/order/getResult
+Accept: application/json
+Cache-Control: no-cache

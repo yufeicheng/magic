@@ -1,3 +1,4 @@
+import cn.hutool.core.util.RandomUtil;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.magic.interview.service.validated.LombokDto;
@@ -25,9 +26,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Calendar;
@@ -40,6 +46,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
@@ -345,17 +352,25 @@ public class TestC {
     }
 
     @Test
-    public void jwtToken() throws UnsupportedEncodingException {
+    public void jwtToken() throws UnsupportedEncodingException, UnknownHostException {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
+        LongAdder longAdder = new LongAdder();
+        longAdder.add(1000);
+        for (int i = 0; i < 50; i++) {
+            LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Shanghai"));
+            longAdder.increment();
+        }
 
-        //eyJhbGciOiJIUzI1NiJ9.eyJ1aWQiOiIxMjM0NTYiLCJ2ZXJzaW9uIjoxMiwiZXhwIjoxNTk5NzA2MjE2fQ.fgJYmNbwvsJdLahZ9mUYjDSe-B0Dls1bFIg-99DOoPA
 
-        String str = "eyJ1aWQiOiIxMjM0NTYiLCJ2ZXJzaW9uIjoxMiwiZXhwIjoxNTk5NzA2MjE2fQ";
-        byte[] decode = Base64.getDecoder().decode(str);
-        System.out.println(new String(decode,"utf-8"));
-
-        //System.out.println(Base64.getEncoder().encodeToString("{\"uid\":\"456789\",\"version\":12,\"exp\":1599706216}".getBytes(StandardCharsets.UTF_8)));
+        InetAddress localHost = InetAddress.getLocalHost();
+        String hostAddress = localHost.getHostAddress();
+        System.out.println(hostAddress);
+        System.out.println(hostAddress.length());
+        System.out.println(hostAddress.split("\\.")[3]);
 
     }
+
+
 
 
 }
