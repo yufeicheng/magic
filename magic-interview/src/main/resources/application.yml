@@ -10,6 +10,9 @@ spring:
     port: 6380
     password: ENC(T7Y99lbcrglxUvKQKS+4mbQdxyIp2k6HcxYvjhComC4zTd/LomKY7VEW6f21RBwO)
 
+  #在实现了 implements WebMvcConfigurer接口时，此配置是无效的
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
 ---
 spring.profiles: dev
 spring.profiles.include: dao-dev

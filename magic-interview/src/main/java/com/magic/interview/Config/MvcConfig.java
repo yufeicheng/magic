@@ -13,7 +13,7 @@ import java.util.List;
  * @author Cheng Yufei
  * @create 2020-01-14 10:47
  **/
-//@Configuration
+@Configuration
 public class MvcConfig implements WebMvcConfigurer {
 
 	@Override

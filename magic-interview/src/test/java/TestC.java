@@ -410,6 +410,20 @@ public class TestC {
 		ZonedDateTime zonedDateTimeZ = ZonedDateTime.ofInstant(Instant.now(),ZoneId.of("Z"));
 		System.out.println(zonedDateTime.format(pattern));
 		System.out.println(zonedDateTimeZ.format(pattern));
+
+
+	}
+
+	@Test
+	public void with() {
+		LocalDateTime now = LocalDateTime.now();
+		System.out.println(now);
+		//with:修改某些值
+		System.out.println(now.withHour(12));
+
+		System.out.println(LocalDateTime.now());
+
+		System.out.println(LocalDateTime.ofInstant(Instant.ofEpochMilli(1602833429795L),ZoneId.of("Asia/Shanghai")));
 	}
 
 }

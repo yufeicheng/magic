@@ -5,6 +5,7 @@ import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
 import com.alibaba.fastjson.support.spring.GenericFastJsonRedisSerializer;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.ExclusionStrategy;
 import com.google.gson.FieldAttributes;
@@ -24,6 +25,7 @@ import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.scheduling.annotation.EnableAsync;
 
+import java.text.SimpleDateFormat;
 import java.util.Objects;
 
 /**
@@ -90,5 +92,11 @@ public class MagicInterviewApplication {
           }
       }).create();
   }
-    
+
+  @Bean(name="objectMapper")
+  public ObjectMapper initObjectMapper(){
+      ObjectMapper objectMapper = new ObjectMapper();
+      objectMapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+      return objectMapper;
+  }
 }
