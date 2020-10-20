@@ -20,9 +20,4 @@ public class MvcConfig implements WebMvcConfigurer {
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
 		resolvers.add(new CurrentUserHandler());
 	}
-
-	@Override
-	public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
-		converters.add(0, new MappingJackson2HttpMessageConverter());
-	}
 }
