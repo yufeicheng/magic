@@ -1,6 +1,5 @@
 package com.magic.interview.exception;
 
-import com.alibaba.fastjson.JSON;
 import com.google.gson.Gson;
 import com.magic.base.dto.Result;
 import com.magic.base.dto.enums.RespStatusEnum;
@@ -17,8 +16,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolationException;
-import java.io.IOException;
-import java.io.PrintWriter;
 
 /**
  * validate参数校验异常处理
@@ -65,6 +62,8 @@ public class ValidateExceptionhandle {
 	public Result handle(MethodArgumentNotValidException ex, HttpServletResponse response) {
 		BindingResult bindingResult = ex.getBindingResult();
 		StringBuilder stringBuilder = new StringBuilder();
+		//@MyCheck自定义校验规则时异常信息在getAllErrors()方法
+		bindingResult.getAllErrors().stream().forEach(b->stringBuilder.append(b.getObjectName()).append(":").append(b.getDefaultMessage()).append(";"));
 		bindingResult.getFieldErrors().stream().forEach(b -> stringBuilder.append(b.getField()).append(":").append(b.getDefaultMessage()).append(";"));
 		String error = stringBuilder.toString();
 		log.error(error);
@@ -79,7 +78,12 @@ public class ValidateExceptionhandle {
 		}*/
 	}
 
-
+	/**
+	 * 自定义集合类型ValidationList形式校验异常
+	 * @param ex
+	 * @param response
+	 * @return
+	 */
 	@ExceptionHandler(value = NotReadablePropertyException.class)
 	@ResponseStatus(code = HttpStatus.OK)
 	@ResponseBody

@@ -43,6 +43,7 @@ public class TimeDto {
 	 * 请求方式：/time/timestamp?fromRequestParamTime=2020-11-16 12:46:53&fromRequestParamInt=1122，会自动对应TimeDto的属性。
 	 *
 	 * 3.在后端返回前端时，此属性成为时间戳，可在application.yml中设spring.jackson.date-format: yyyy-MM-dd HH:mm:ss，如果有类 实现了 WebMvcConfigurer时，在 application中的配置是无效的,仍会返回时间戳。
+	 *   也可设置objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS)来禁用序列化时时间写为timestamp
 	 * 可用@JsonFormat 设置返回前端格式
 	 */
 	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

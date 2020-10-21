@@ -378,7 +378,7 @@ public class TestC {
 	}
 
 	@Test
-	public void jwtToken() throws  UnknownHostException {
+	public void jwtToken() throws UnknownHostException {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS");
 		LongAdder longAdder = new LongAdder();
 		longAdder.add(1000);
@@ -406,8 +406,8 @@ public class TestC {
 
 
 		System.out.println(">>>>时区<<<<<");
-		ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.now(),ZoneId.of("Asia/Shanghai"));
-		ZonedDateTime zonedDateTimeZ = ZonedDateTime.ofInstant(Instant.now(),ZoneId.of("Z"));
+		ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.now(), ZoneId.of("Asia/Shanghai"));
+		ZonedDateTime zonedDateTimeZ = ZonedDateTime.ofInstant(Instant.now(), ZoneId.of("Z"));
 		System.out.println(zonedDateTime.format(pattern));
 		System.out.println(zonedDateTimeZ.format(pattern));
 
