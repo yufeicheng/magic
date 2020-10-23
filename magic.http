@@ -204,3 +204,8 @@ Authorization: Bearer {{token}}
 GET {{url}}/order/getResult
 Accept: application/json
 Cache-Control: no-cache
+
+###
+GET {{url}}/listener/setExpireKey?key=yf:test&expire=30
+Accept: application/json
+Cache-Control: no-cache
