@@ -7,10 +7,10 @@
 
     <!-- 日志文件目录、压缩文件目录、日志格式配置 -->
     <properties>
-        <Property name="fileName">D:/log</Property>
-        <Property name="fileGz">D:/log/7z</Property>
-        <!--<Property name="fileName">/data/Logs</Property>
-        <Property name="fileGz">/data/Logs/7z</Property>-->
+<!--        <Property name="fileName">D:/log</Property>-->
+<!--        <Property name="fileGz">D:/log/7z</Property>-->
+        <Property name="fileName">/Users/chengyufei/Downloads/project/self/github/data/Logs</Property>
+        <Property name="fileGz">/Users/chengyufei/Downloads/project/self/github/data/Logs/7z</Property>
         <Property name="PID">????</Property>
         <Property name="LOG_PATTERN">%clr{%d{yyyy-MM-dd HH:mm:ss.SSS}}{faint} %clr{%5p} %clr{${sys:PID}}{magenta} %clr{---}{faint} %clr{[%15.15t]}{faint} %clr{%-40.40c{1.}}{cyan} %clr{:}{faint} %m%n%xwEx
         </Property>

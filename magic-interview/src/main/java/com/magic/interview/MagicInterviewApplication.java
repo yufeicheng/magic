@@ -37,8 +37,8 @@ import java.util.Objects;
 @EnableSms
 @EnableAsync
 //获取配置文件加密盐值
-@PropertySource(value = {"file:D:/encrypt.properties"})
-//@PropertySource(value = {"file:/data/encrypt.properties"})
+//@PropertySource(value = {"file:D:/encrypt.properties"})
+@PropertySource(value = {"file:/Users/chengyufei/Downloads/project/self/encrypt.properties"})
 public class MagicInterviewApplication {
 
     @Value("${jasypt.encryptor.password}")
