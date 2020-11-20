@@ -214,3 +214,24 @@ Cache-Control: no-cache
 GET {{url}}/page/getPageInfo?pageNum=2&pageSize=3
 Accept: application/json
 Cache-Control: no-cache
+
+
+###
+GET {{url}}/timeseries/create?keySuffix=1&retention=100&labelValue=1
+Accept: */*
+Cache-Control: no-cache
+
+###
+GET {{url}}/timeseries/add?key=device:temperature:1&value=102
+Accept: */*
+Cache-Control: no-cache
+
+###
+GET {{url}}/timeseries/get?type=mget&key=device:temperature:1
+Accept: */*
+Cache-Control: no-cache
+
+###
+GET {{url}}/timeseries/range?key=device:temperature:1&count=4
+Accept: */*
+Cache-Control: no-cache
