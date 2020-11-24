@@ -455,7 +455,6 @@ public class TestC {
         // 请求参数填充
         UriComponents expand = components.expand(25, "man");
         System.out.println(expand.toUriString());
-
     }
 
 }
