@@ -39,6 +39,8 @@ import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -430,7 +432,7 @@ public class TestC {
     }
 
     @Test
-    public void uriComponent() {
+    public void uriComponent()  {
         String url = "http://localhost:9090/uer/getInfo?name=123&age={age}&gender={gender}";
         UriComponents components = UriComponentsBuilder.fromHttpUrl(url).build();
 
@@ -455,6 +457,24 @@ public class TestC {
         // 请求参数填充
         UriComponents expand = components.expand(25, "man");
         System.out.println(expand.toUriString());
+
     }
+
+    @Test
+        public void SecureRandomTest() throws NoSuchAlgorithmException, UnsupportedEncodingException {
+        //TODO BY Cheng Yufei <-2020-11-25 14:29->
+        // 使用方法？
+        SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
+        int i = secureRandom.nextInt(100);
+        System.out.println(i);
+
+        byte[] bytes = new byte[20];
+        SecureRandom secureRandom1 = new SecureRandom();
+        secureRandom1.nextBytes(bytes);
+        System.out.println(new String(Base64.getEncoder().encode(bytes)));
+
+        String base = "abcdefghijklmnopqrstuvwxyz";
+        System.out.println(RandomUtil.randomString(base,2));
+        }
 
 }
