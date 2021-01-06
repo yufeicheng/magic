@@ -59,7 +59,8 @@ public class OrderGenService {
 	public static void main(String[] args) {
 
 		List<String> list = Collections.synchronizedList(new ArrayList<String>());
-		IntStream.rangeClosed(0, 9000).parallel().forEach(s -> {
+		// 四位数自增，大概在9k并发左右会产生重复id
+		IntStream.rangeClosed(0, 8000).parallel().forEach(s -> {
 			list.add(generateNo());
 		});
 
@@ -73,7 +74,7 @@ public class OrderGenService {
 
 		LocalDateTime now = LocalDateTime.now(ZoneId.of("Asia/Shanghai"));
 
-		if (seq.intValue() > 9990) {
+		if (seq.intValue() > 9900) {
 			System.out.println("----reset-----");
 			seq.getAndSet(1000);
 		}
