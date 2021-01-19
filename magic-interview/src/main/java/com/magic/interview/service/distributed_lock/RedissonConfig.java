@@ -19,8 +19,8 @@ public class RedissonConfig {
 
     @Autowired
     private BasicTextEncryptor basicTextEncryptor;
-    @Value("${spring.redis.password}")
-    private String redisPwd;
+    /*@Value("${spring.redis.password}")
+    private String redisPwd;*/
     @Value("${spring.redis.host}")
     private String host;
     @Value("${spring.redis.port}")
@@ -35,7 +35,7 @@ public class RedissonConfig {
     public RedissonClient init() {
         Config config = new Config();
         //可设置cluster 或者 sentinel 模式
-        config.useSingleServer().setAddress("redis://"+host + ":" + port).setPassword(redisPwd);
+        config.useSingleServer().setAddress("redis://"+host + ":" + port)/*.setPassword(redisPwd)*/;
         return Redisson.create(config);
 
     }

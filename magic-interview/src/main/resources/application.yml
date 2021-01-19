@@ -5,10 +5,10 @@ spring:
   application.name: interview
   profiles.active: dev
   redis:
-    host: 39.106.118.71
+    host: 127.0.0.1
 #    host: 172.18.0.3
-    port: 6380
-    password: ENC(T7Y99lbcrglxUvKQKS+4mbQdxyIp2k6HcxYvjhComC4zTd/LomKY7VEW6f21RBwO)
+    port: 6379
+#    password: ENC(T7Y99lbcrglxUvKQKS+4mbQdxyIp2k6HcxYvjhComC4zTd/LomKY7VEW6f21RBwO)
 
   #在实现了 implements WebMvcConfigurer接口时，此配置是无效的
   jackson:

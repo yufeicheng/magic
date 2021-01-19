@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
+
 /**
  * @author Cheng Yufei
  * @create 2019-11-05 11:06
@@ -23,13 +26,28 @@ public class DistributedLockController {
     private RedissonService redissonService;
 
     @GetMapping("/redisson")
-    public String redisson() throws InterruptedException {
-        redissonService.handler();
+    public String redisson() {
+      /*  try {
+            redissonService.handler();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+        IntStream.rangeClosed(1, 100).parallel().forEach(i -> {
+            try {
+                redissonService.handler();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
         return "success";
     }
+
     @GetMapping("/noLock")
     public String noLock() {
-        redissonService.noLock();
+        IntStream.rangeClosed(1, 100).parallel().forEach(i -> {
+            redissonService.noLock();
+        });
+
         return "success";
     }
 

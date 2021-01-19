@@ -76,7 +76,7 @@
             <version>0.9.1</version>
         </dependency>
 
-<!--        RSA 2048位 加解密使用-->
+        <!--        RSA 2048位 加解密使用-->
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcpkix-jdk15on</artifactId>
@@ -108,6 +108,28 @@
             <groupId>com.redislabs</groupId>
             <artifactId>jredistimeseries</artifactId>
             <version>1.4.0</version>
+        </dependency>
+
+        <!--leaf 分布式ID-->
+        <dependency>
+            <artifactId>leaf-boot-starter</artifactId>
+            <groupId>com.sankuai.inf.leaf</groupId>
+            <version>1.0.1-RELEASE</version>
+        </dependency>
+        <dependency>
+            <artifactId>leaf-core</artifactId>
+            <groupId>com.sankuai.inf.leaf</groupId>
+            <version>1.0.1-RELEASE</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.alibaba</groupId>
+                    <artifactId>druid</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.mybatis</groupId>
+                    <artifactId>mybatis</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
     </dependencies>
