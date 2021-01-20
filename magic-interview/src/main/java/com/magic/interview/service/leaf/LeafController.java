@@ -28,16 +28,16 @@ public class LeafController {
     /**
      * 直接使用 ArrayList 多线程 add时会有 ArrayIndexOutOfBoundsException 错误
      */
-    private static List<Integer> list  = Collections.synchronizedList(new ArrayList<Integer>());
-    private static HashSet<Integer> set = new HashSet<>();
+    private static List<Long> list = Collections.synchronizedList(new ArrayList<Long>());
+    private static HashSet<Long> set = new HashSet<>();
 
     @GetMapping("/segment")
-    public String segment(@RequestParam String key) {
+    public String segment(@RequestParam String key, @RequestParam String type) {
 
         IntStream.rangeClosed(1, 100).parallel().forEach(k -> {
-            String id = leafService.generator(key);
+            Long id = leafService.generatorSegment(type, key);
             log.info(">>获取ID：{}", id);
-            list.add(Integer.valueOf(id));
+            list.add(id);
         });
         set.addAll(list);
         log.info(">>生成订单号：{} 个", list.size());

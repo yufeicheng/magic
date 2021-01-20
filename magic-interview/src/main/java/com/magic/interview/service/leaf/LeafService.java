@@ -2,6 +2,7 @@ package com.magic.interview.service.leaf;
 
 import com.sankuai.inf.leaf.common.Result;
 import com.sankuai.inf.leaf.service.SegmentService;
+import com.sankuai.inf.leaf.service.SnowflakeService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +18,21 @@ public class LeafService {
 
     @Autowired
     private SegmentService segmentService;
+    @Autowired
+    private SnowflakeService snowflakeService;
 
-    public String generator(String key) {
-        Result result = segmentService.getId(key);
-        return result.toString();
+    public Long generatorSegment(String type, String key) {
+        Result result = new Result();
+        switch (type) {
+            case "segment":
+                result = segmentService.getId(key);
+                break;
+            case "snowflake":
+                result = snowflakeService.getId(key);
+                break;
+            default:
+                break;
+        }
+        return result.getId();
     }
-
 }
