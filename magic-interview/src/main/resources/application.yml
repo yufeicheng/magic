@@ -25,7 +25,8 @@ sms:
 
 # 指定log4j2作为日志记录
 logging:
-  config: classpath:log4j2-dev.xml
+  config: classpath:logback-logstash.xml
+#  config: classpath:log4j2-dev.xml
 #  config: classpath:log4j2-8090.xml
 #  config: classpath:log4j2-8091.xml
 
