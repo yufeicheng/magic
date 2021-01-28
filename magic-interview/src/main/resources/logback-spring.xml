@@ -6,9 +6,9 @@
     <include resource="org/springframework/boot/logging/logback/console-appender.xml" />
 
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-        <File>/Users/chengyufei/Downloads/project/work/jrj/data/Logs/interview.log</File>
+        <File>/Users/chengyufei/Downloads/project/self/github/data/Logs/interview.log</File>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <FileNamePattern>/data/Logs/interview.jrj.local/interview-%d{yyyy-MM-dd}.log</FileNamePattern>
+            <FileNamePattern>/Users/chengyufei/Downloads/project/self/github/data/Logs/interview-%d{yyyy-MM-dd}.log</FileNamePattern>
             <MaxHistory>30</MaxHistory>
         </rollingPolicy>
         <layout class="ch.qos.logback.classic.PatternLayout">

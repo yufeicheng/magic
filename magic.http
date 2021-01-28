@@ -241,3 +241,8 @@ Cache-Control: no-cache
 GET {{url}}/leaf/segment?key=cyf&type=segment
 Accept: */*
 Cache-Control: no-cache
+
+### @Value
+GET {{url}}/value/list
+Accept: */*
+Cache-Control: no-cache

@@ -25,10 +25,19 @@ sms:
 
 # 指定log4j2作为日志记录
 logging:
-  config: classpath:logback-logstash.xml
+  config: classpath:logback-spring.xml
+#  config: classpath:logback-logstash.xml
 #  config: classpath:log4j2-dev.xml
 #  config: classpath:log4j2-8090.xml
 #  config: classpath:log4j2-8091.xml
 
 jwt:
   secret: jwt:secret
+
+test:
+#  list:
+#    - cc
+#    - dd
+
+#  list: aaa,bbb,vvv
+  map: '{"id": 12, "name": "zhangsan", "sex": "male"}'
