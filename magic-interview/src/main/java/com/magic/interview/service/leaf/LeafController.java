@@ -32,9 +32,9 @@ public class LeafController {
     private static HashSet<Long> set = new HashSet<>();
 
     @GetMapping("/segment")
-    public String segment(@RequestParam String key, @RequestParam String type) {
+    public String segment(@RequestParam String key, @RequestParam String type,@RequestParam Integer cycle) {
 
-        IntStream.rangeClosed(1, 100).parallel().forEach(k -> {
+        IntStream.rangeClosed(1, cycle).parallel().forEach(k -> {
             Long id = leafService.generatorSegment(type, key);
             log.info(">>获取ID：{}", id);
             list.add(id);

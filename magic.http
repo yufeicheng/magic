@@ -238,7 +238,7 @@ Cache-Control: no-cache
 
 
 ### leaf 分布式ID ： snowflake  segment
-GET {{url}}/leaf/segment?key=cyf&type=segment
+GET {{url}}/leaf/segment?key=cyf&type=segment&cycle=1000
 Accept: */*
 Cache-Control: no-cache
 
