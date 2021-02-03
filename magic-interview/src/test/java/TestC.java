@@ -252,7 +252,7 @@ public class TestC {
     @Test
     public void encrypt() {
         BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
-        textEncryptor.setPassword("e2TxKdz");
+        textEncryptor.setPassword("");
 
         String res = textEncryptor.decrypt("HWuWGiatmGzF41wYyrsF482iEVWGrfmf");
         System.out.println(res);
