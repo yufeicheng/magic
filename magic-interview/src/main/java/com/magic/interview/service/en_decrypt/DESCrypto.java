@@ -15,7 +15,7 @@ import java.util.Base64;
  * @author Cheng Yufei
  * @create 2021-02-02 5:16 下午
  **/
-public class DESCrypt {
+public class DESCrypto {
 
     /**
      * 对称加密: DES

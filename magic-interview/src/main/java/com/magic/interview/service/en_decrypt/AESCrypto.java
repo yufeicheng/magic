@@ -17,7 +17,7 @@ import java.util.Base64;
  * @author Cheng Yufei
  * @create 2021-02-03 3:47 下午
  **/
-public class AESCrypt {
+public class AESCrypto {
 
 
     /**

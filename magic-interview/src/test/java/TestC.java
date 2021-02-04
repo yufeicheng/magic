@@ -432,7 +432,7 @@ public class TestC {
     }
 
     @Test
-    public void uriComponent()  {
+    public void uriComponent() {
         String url = "http://localhost:9090/uer/getInfo?name=123&age={age}&gender={gender}";
         UriComponents components = UriComponentsBuilder.fromHttpUrl(url).build();
 
@@ -461,7 +461,7 @@ public class TestC {
     }
 
     @Test
-        public void SecureRandomTest() throws NoSuchAlgorithmException, UnsupportedEncodingException {
+    public void SecureRandomTest() throws NoSuchAlgorithmException, UnsupportedEncodingException {
         //TODO BY Cheng Yufei <-2020-11-25 14:29->
         // 使用方法？
         SecureRandom secureRandom = SecureRandom.getInstance("SHA1PRNG");
@@ -474,7 +474,18 @@ public class TestC {
         System.out.println(new String(Base64.getEncoder().encode(bytes)));
 
         String base = "abcdefghijklmnopqrstuvwxyz";
-        System.out.println(RandomUtil.randomString(base,2));
-        }
+        System.out.println(RandomUtil.randomString(base, 2));
+    }
+
+    @Test
+    public void lll() {
+        String privateKey = "MIIEogIBAAKCAQEAiZrlbaYsCf14cId0s+PRrCeR08a/xyFhMqv0rpzLkn8vgP405M2b7qFRN2h0UqWLRlWJ+XCQnPpm1KeF10NXj15BU7HpfI/jXxHvXl1pNOrmXKtyko8HaeXS6/oTaoNtOWBOjXxEWwtM38EdzAqgrJmZJ0o3SrmdInzNIoUDmkG3LmtC8fyn4j/uq0shSs8FroRUBJSRvXKukrsSReSYOL7vXiAEwVSXQlPAyjtHP6SFE+67Asr9HUjMmjP4L66nMhtFmIGubKNRFoMbkHrPrmf7lPNM+kkPwhFky6TyuaqTrzOpyB3QeM7QT5DlJhrWKJbVcHK0d/XMRQ5BBFVTqwIDAQABAoIBABo9SDyVcFZjWCEVI2LeMXBDh2I7xvwg2FkCQ0E8svD3gcZ2Mv3iWzaw2jzXlT7hRGKgExRWq6zTbuJkI3h95ed30Ls19NEE2xWY5O04oMQvesf3BXz++yntYkAPSr6H2z8Sp0gBh0NZL0qHl7f92s+u5m6Aj3SXWmhmJfPMK3ixgaGgwNiOsp1RYIoHiNZ1UohKEqM8ayEvmCkrPltfs9BiMwpIMxe/RXrSAYaRwLTtuAQp/VmqWHV+Jg8EtoSRbh5u6MVRXBVq5Pe+ Xb8Mq3jyEMn8adp521plA5mu6yV3ZaLLRHBxrhnFt2bB17kvxMMoHx4V9ZlqN0zYXh+m4HECgYEAxXSFgApEwpz/TbM/8BrdHMbWVeSbE+UmWq8a0XrbzUTpXUx3Fo+UoBnfpjgVHguLnvoLSGpoVWsHWyF1vENEODCvxIIYHTL1fa/wLaQGfJXseVEDrGM+WyKGuzdhvkJ1pFOICvT07txIOAxGaxmAQ9EzWitz0hewhHeUsVBroLkCgYEAsmePjRW8n8PO9f5UwZXqZFrlGT2YOMHkr/lFL9bk1oET1gcv6xoqDVyeYKiTCForhU/yssgUmuBF1hHU4SDrbvzkZux04yDpxvlHsuCqw0dnAkZJpC1YeET9pPSspPDAzczFBFVhPp/JXz5emoRo9U42t2N0g98Ytg0bmQCmPYMCgYAChx5aaEc/EpF2JjBQW5evEaCW0ullVM6r5If8XI1J0HMIXb08jbQCZLJnR1qF2vH7pAnW8H3LciZS9VezhEzwRzdI1b2HSiq4ZDM38lye5bB0USQx5cdblVKSPQBEVkd5RhR8x2wHTsyh4w5XuqjYtWnp4pqF+wWofHtr1bK7CQKBgE6i1SRz21N0hInrU8KMaOdZJThN7QW/eSSTtApVJ0LhXDPvsRBo1PZUx76FL2H0FNDLH4fsJyDpD/8+lt2wm/Ws5KP1P8RJYqIAiLjwzHQMyfu3rYf/MMq6Zi7KZjrBn8pWotS5KYbn+WPQ4vQqvvS5R+bnoJjrwkGkX3C+V4gvAoGAbG+uzK2f2dMPKlGLZtmDMrvmpySnbDW7mioeS9eHim4OUNvKRxhXsZM4t9VryqT2Ne6zB4O4RQPSDZXenUyU4gAg5+8EovjtBeNaCwRNHpz3ffct/Q/jrqZn6P3yATDTx6HRodTfoGVPM29xqdxXDjgMvFc8da+TXqjvlZT1Xzg=";
+        System.out.println(privateKey.length());
+
+
+        String s2 = "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDilCj2Y9i8had+JmhrSzgJ+3xk1vk4rxCf+6vOIJRT0+tqswd3RruLnnsvcTtsNHL5aceeVBcXXDz3QyH20qULxS6hdP85zXLUjo9ScprokEI6hpqRaLqwEhtiiaVV/fuI++6ZIo60ygBf4qeJqD8wWpx410gQ2bYs550sRLA8ocJ+WMaudZjHsaTJQmQZ9B77JF7yUONm0s9XF9bAjJrzyGiSEu0CwLb8DwmFc0l4Q3ACpM+7UlYKMex9Ez+7jFnIx0Kw3cyKVkWyBiG7tDsQTo0JpAFEqNXeNdApmv+Z529HcOGbNTTYdqZQ3GY5AL4gPyuvfwxf6DHQswHidyKJAgMBAAECggEBAJ/1DxIbHTjCdqOVg+QzXyWU+JXMOnetB+SZ7QmBcJXZp3pVV7D6K47+3GJ64wOZ541zAy0gmoiwYo4BQ+oXfdNYanorub9Z7nZnCoGfTQNgTJE608ZSFHIW5mRjXmjd/IURrrlHb03syeTng3WoZKvDXHHnMgZLXNRI02ocN/skt4Ex7I3UfZGVlnWCJxCjhuasCyz1nxAicLtKhtxXBl5IUAxCpR8tfkVzWYSuV+OVAu0EswK7QXPgccLq/MlRs/QFL+IIEdCv8HFbMwbwR4v/J3EiUs9qwrO/wok6zT1U5uHXgyRo8okHOXQ3D3na2BgPphlkTYh2TvBc2JOQBIECgYEA+XAVM0YgmjriSUfm3ehHOi3js3yDGxDX1tqZHhLWVIlLj1ECO3ElWXqlx0StOmLnZGPlUu6V+zX/og3lFQRrz4SI4jQy7BOgXFF2URVPHXdLeRmwvPKm7dBJL8ZLVafaY8CNWHZFXTw0FT1qZElO2wnoJa++omBv+RmHsrHujTkCgYEA6IogJ38wYpf4KfBynykZ7+fVfSi+1mhrXYLbTOfSPxrj6Aeny4O0T8Ai8b8Ixh5sXupN+GESOj5k0i/a+nLKZMxGMK9wgkwVvoWNc0XJC9iSiacGePr1IT9LK0Y9CANV6MT2Ze0wvYLJdgcZICLt+3u1ML30jYnQi1Istw9rj9ECgYAJp+4aKwfOEKN75L2qL3i6ZtZet1436QIB/jpZMK99XEdBiAhHFs00VoweV6lBDl0YxMk22aeSrvdzZYhNtPsbcG0AHLcv7l6R1FF5OBL0+A5C5Nyzo80UfbCnmcyGx1Wr8ONH3mQ3BMKbY+I/eZsE3bBP7Sq7DHKpOPTI1Rx/+QKBgQCHf9T0rtxW1w64AXAI5j5C2OhBofhxny7QsmtvCLYuJ1Ed5zgTEo+C2QaDrzlBmIC1XfpI/OdOIQVGpLQIs9LToWRVAiWhBwy0k8W0oblgubXJmBXhcPpdgTAf6zGs9aSdmgeppOh9xTP3HnO5kiDyJUeTO1zBDMkEJcIAeW/HwQKBgA64KoyjuY0kgwej///i4K5th+0B+PGK8PzG43l6NJojUeEc0j+QDbwU+aAKUaa6+rMEL9OCi5hTo55EEX/4bULxEEw8LiQRr6wxgXs/4DfnKGmJmJsacPE6uFxOnGGWJE6rZHttTsVNxtJgc4iFX4HADeNyCWwFYKtEMaodV02r";
+        System.out.println(s2.length());
+
+    }
 
 }
