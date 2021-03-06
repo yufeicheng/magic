@@ -23,12 +23,12 @@ import java.util.concurrent.TimeUnit;
  * @create 2020-10-19 17:08
  **/
 
-@OutputTimeUnit(TimeUnit.MILLISECONDS)
+/*@OutputTimeUnit(TimeUnit.MILLISECONDS)
 @BenchmarkMode(Mode.AverageTime)
 @Measurement(iterations = 1, time = 2, timeUnit = TimeUnit.SECONDS)
 @Warmup(iterations = 0, time = 1, timeUnit = TimeUnit.SECONDS)
 @Threads(2)
-@Fork(1)
+@Fork(1)*/
 public class JmhTest {
 
 	public static void main(String[] args) throws RunnerException {
@@ -37,13 +37,13 @@ public class JmhTest {
 	}
 
 
-	@State(Scope.Thread)
+	//@State(Scope.Thread)
 	public static class ThreadState {
 		int j = 0;
 	}
 
 
-	@Benchmark
+	//@Benchmark
 	public Integer test1(ThreadState threadState) throws InterruptedException {
 		Thread.sleep(2500);
 		System.out.println("----->>>>>>>>>" + Thread.currentThread().getName());

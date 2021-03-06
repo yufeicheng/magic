@@ -99,12 +99,16 @@ public class Concurrent {
 
         CountDownLatch countDownLatch = new CountDownLatch(50);
 
-        ConcurrentHashMap<Integer, LongAdder> keyFrequency = new ConcurrentHashMap<>();
+        //ConcurrentHashMap<Integer, LongAdder> keyFrequency = new ConcurrentHashMap<>();
+        ConcurrentHashMap<Integer, Integer> keyFrequency = new ConcurrentHashMap<>();
 
         for (int i = 0; i < 50; i++) {
 
             new Thread(() -> {
-                keyFrequency.computeIfAbsent(ThreadLocalRandom.current().nextInt(5), s -> new LongAdder()).increment();
+                int key = ThreadLocalRandom.current().nextInt(5);
+                System.out.println(key);
+                //keyFrequency.computeIfAbsent(key, s -> new LongAdder()).increment();
+                keyFrequency.merge(key, 1, (o, n) -> o + n);
                 //keyFrequency.putIfAbsent(ThreadLocalRandom.current().nextInt(5), new LongAdder()).increment();
                 countDownLatch.countDown();
             }).start();

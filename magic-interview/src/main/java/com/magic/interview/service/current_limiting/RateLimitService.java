@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Stream;
 
 /**
  * guava 限流
@@ -13,13 +14,13 @@ import java.util.concurrent.TimeUnit;
  * @author Cheng Yufei
  * @create 2020-01-08 9:30
  **/
-@Service
-@Slf4j
+//@Service
+//@Slf4j
 public class RateLimitService {
 
     private RateLimiter rateLimiter;
 
-    @PostConstruct
+   /* @PostConstruct
     public void init() {
         //每秒产生2个令牌
         //rateLimiter = RateLimiter.create(2);
@@ -34,8 +35,19 @@ public class RateLimitService {
         //申请1个令牌，阻塞直到申请成功，返回所等待的时间
         double acquire = rateLimiter.acquire(1);
 
-        log.info(String.valueOf(acquire));
+        //log.info(String.valueOf(acquire));
 
+    }*/
+
+    //private static RateLimiter smoothBursty = RateLimiter.create(10);
+    private static RateLimiter smoothWarmingUp = RateLimiter.create(2,1,TimeUnit.SECONDS);
+
+    public static void main(String[] args) {
+        Stream.iterate(1, k -> ++k).limit(10).forEach(s -> {
+            double acquire = smoothWarmingUp.acquire();
+            System.out.println(acquire);
+        });
     }
+
 
 }

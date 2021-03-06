@@ -23,7 +23,7 @@ public class LimitingController {
 
     @GetMapping("/breakdown")
     public Object breakdown()  {
-        rateLimitService.limit();
+        //rateLimitService.limit();
         return "success";
     }
 }

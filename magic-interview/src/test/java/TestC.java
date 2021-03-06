@@ -1,4 +1,5 @@
 import cn.hutool.core.date.DateTime;
+import cn.hutool.core.text.UnicodeUtil;
 import cn.hutool.core.util.RandomUtil;
 import com.fasterxml.jackson.databind.util.ISO8601DateFormat;
 import com.google.common.base.Splitter;
@@ -6,9 +7,15 @@ import com.google.common.collect.Lists;
 import com.google.gson.internal.bind.util.ISO8601Utils;
 import com.magic.interview.service.validated.LombokDto;
 import jodd.template.StringTemplateParser;
+import jodd.util.PropertiesUtil;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.collections4.CollectionUtils;
+import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.collections4.functors.AnyPredicate;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -16,6 +23,7 @@ import org.apache.commons.lang3.time.DateUtils;
 import org.apache.commons.lang3.time.FastDateFormat;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.ImmutableTriple;
+import org.apache.commons.text.StringEscapeUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -29,12 +37,16 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.beans.PropertyDescriptor;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 import java.net.InetAddress;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.net.UnknownHostException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -56,19 +68,7 @@ import java.time.format.FormatStyle;
 import java.time.format.ResolverStyle;
 import java.time.format.SignStyle;
 import java.time.temporal.TemporalAccessor;
-import java.util.ArrayList;
-import java.util.Base64;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.TimeZone;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.function.Function;
@@ -399,23 +399,65 @@ public class TestC {
 
     @Test
     public void utcAndZoneTime() throws ParseException {
+
+        ZoneId shangHai = ZoneId.of("Asia/Shanghai");
+
         //非TZ格式UTC转换
         String isoStr = "Mon Sep 28 03:27:52 UTC 2020";
         Date date = new Date(isoStr);
         DateTimeFormatter pattern = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        System.out.println(pattern.format(LocalDateTime.from(date.toInstant().atZone(ZoneId.of("Asia/Shanghai")))));
+        System.out.println(pattern.format(LocalDateTime.from(date.toInstant().atZone(shangHai))));
 
         DateTimeFormatter ofPattern = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
         ZonedDateTime parse1 = ZonedDateTime.parse(isoStr, ofPattern);
-        System.out.println(parse1.toInstant().atZone(ZoneId.of("Asia/Shanghai")).format(pattern));
+        System.out.println(parse1.toInstant().atZone(shangHai).format(pattern));
 
 
         System.out.println(">>>>时区<<<<<");
-        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.now(), ZoneId.of("Asia/Shanghai"));
+        ZonedDateTime zonedDateTime = ZonedDateTime.ofInstant(Instant.now(), shangHai);
         ZonedDateTime zonedDateTimeZ = ZonedDateTime.ofInstant(Instant.now(), ZoneId.of("Z"));
         System.out.println(zonedDateTime.format(pattern));
         System.out.println(zonedDateTimeZ.format(pattern));
 
+
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+//设置时区UTC
+        df.setTimeZone(TimeZone.getTimeZone("UTC"));
+//格式化，转当地时区时间
+        Date after = df.parse("2018-05-23T16:05:52.123Z");
+        System.out.println(after);
+
+        //CST: 北京时间 Fri Mar 05 16:15:47 CST 2021
+        System.out.println(new Date());
+    }
+
+
+    @Test
+    public void utc() {
+        ZoneId shangHai = ZoneId.of("Asia/Shanghai");
+        String time = "2018-05-23T16:05:52.123Z";
+        //需指定UTC时区，否则使用ZonedDateTime parse时报错
+        DateTimeFormatter utcFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").withZone(ZoneId.of("UTC"));
+        DateTimeFormatter commonFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        //无效
+        System.out.println(LocalDateTime.from(utcFormatter.parse(time)).atZone(shangHai).format(commonFormatter));
+        System.out.println(LocalDateTime.from(utcFormatter.parse(time)).toInstant(ZoneOffset.of("+8")).atZone(shangHai).format(commonFormatter));
+
+        ZonedDateTime parse = ZonedDateTime.parse(time, utcFormatter);
+        //无效
+        System.out.println(parse.toLocalDateTime().format(commonFormatter));
+        System.out.println(parse.toLocalDateTime().atZone(shangHai).format(commonFormatter));
+
+        // 有效：utc(TZ) -> cst: 2018-05-24 00:05:52
+        System.out.println(parse.toInstant().atZone(shangHai).toLocalDateTime().format(commonFormatter));
+        // 有效： utc -> cst:2018-05-24 00:05:52
+        System.out.println(parse.withZoneSameInstant(shangHai).toLocalDateTime().format(commonFormatter));
+
+        //有效： utc -> cst
+        String isoStr = "Mon Sep 28 03:27:52 UTC 2020";
+        DateTimeFormatter utcFormatter2 = DateTimeFormatter.ofPattern("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+        ZonedDateTime parse1 = ZonedDateTime.parse(isoStr, utcFormatter2);
+        System.out.println(parse1.toInstant().atZone(shangHai).toLocalDateTime().format(commonFormatter));
 
     }
 
@@ -429,6 +471,8 @@ public class TestC {
         System.out.println(LocalDateTime.now());
 
         System.out.println(LocalDateTime.ofInstant(Instant.ofEpochMilli(1602833429795L), ZoneId.of("Asia/Shanghai")));
+
+        System.out.println(ZoneId.getAvailableZoneIds());
     }
 
     @Test
@@ -436,16 +480,13 @@ public class TestC {
         String url = "http://localhost:9090/uer/getInfo?name=123&age={age}&gender={gender}";
         UriComponents components = UriComponentsBuilder.fromHttpUrl(url).build();
 
-       /* String url = "http://itougu.jrj.com.cn/account/getUserInfo?name=123";
-        UriComponents components = UriComponentsBuilder.fromUriString(url).build();*/
-
         //http
         System.out.println(components.getScheme());
         //localhost
         System.out.println(components.getHost());
 
         System.out.println(components.getPort());
-        //name=123
+        // name=123&age={age}&gender={gender}
         System.out.println(components.getQuery());
         //   /uer/getInfo
         System.out.println(components.getPath());
@@ -456,6 +497,7 @@ public class TestC {
 
         // 请求参数填充
         UriComponents expand = components.expand(25, "man");
+        //http://localhost:9090/uer/getInfo?name=123&age=25&gender=man
         System.out.println(expand.toUriString());
 
     }
@@ -478,13 +520,65 @@ public class TestC {
     }
 
     @Test
-    public void lll() {
-        String privateKey = "MIIEogIBAAKCAQEAiZrlbaYsCf14cId0s+PRrCeR08a/xyFhMqv0rpzLkn8vgP405M2b7qFRN2h0UqWLRlWJ+XCQnPpm1KeF10NXj15BU7HpfI/jXxHvXl1pNOrmXKtyko8HaeXS6/oTaoNtOWBOjXxEWwtM38EdzAqgrJmZJ0o3SrmdInzNIoUDmkG3LmtC8fyn4j/uq0shSs8FroRUBJSRvXKukrsSReSYOL7vXiAEwVSXQlPAyjtHP6SFE+67Asr9HUjMmjP4L66nMhtFmIGubKNRFoMbkHrPrmf7lPNM+kkPwhFky6TyuaqTrzOpyB3QeM7QT5DlJhrWKJbVcHK0d/XMRQ5BBFVTqwIDAQABAoIBABo9SDyVcFZjWCEVI2LeMXBDh2I7xvwg2FkCQ0E8svD3gcZ2Mv3iWzaw2jzXlT7hRGKgExRWq6zTbuJkI3h95ed30Ls19NEE2xWY5O04oMQvesf3BXz++yntYkAPSr6H2z8Sp0gBh0NZL0qHl7f92s+u5m6Aj3SXWmhmJfPMK3ixgaGgwNiOsp1RYIoHiNZ1UohKEqM8ayEvmCkrPltfs9BiMwpIMxe/RXrSAYaRwLTtuAQp/VmqWHV+Jg8EtoSRbh5u6MVRXBVq5Pe+ Xb8Mq3jyEMn8adp521plA5mu6yV3ZaLLRHBxrhnFt2bB17kvxMMoHx4V9ZlqN0zYXh+m4HECgYEAxXSFgApEwpz/TbM/8BrdHMbWVeSbE+UmWq8a0XrbzUTpXUx3Fo+UoBnfpjgVHguLnvoLSGpoVWsHWyF1vENEODCvxIIYHTL1fa/wLaQGfJXseVEDrGM+WyKGuzdhvkJ1pFOICvT07txIOAxGaxmAQ9EzWitz0hewhHeUsVBroLkCgYEAsmePjRW8n8PO9f5UwZXqZFrlGT2YOMHkr/lFL9bk1oET1gcv6xoqDVyeYKiTCForhU/yssgUmuBF1hHU4SDrbvzkZux04yDpxvlHsuCqw0dnAkZJpC1YeET9pPSspPDAzczFBFVhPp/JXz5emoRo9U42t2N0g98Ytg0bmQCmPYMCgYAChx5aaEc/EpF2JjBQW5evEaCW0ullVM6r5If8XI1J0HMIXb08jbQCZLJnR1qF2vH7pAnW8H3LciZS9VezhEzwRzdI1b2HSiq4ZDM38lye5bB0USQx5cdblVKSPQBEVkd5RhR8x2wHTsyh4w5XuqjYtWnp4pqF+wWofHtr1bK7CQKBgE6i1SRz21N0hInrU8KMaOdZJThN7QW/eSSTtApVJ0LhXDPvsRBo1PZUx76FL2H0FNDLH4fsJyDpD/8+lt2wm/Ws5KP1P8RJYqIAiLjwzHQMyfu3rYf/MMq6Zi7KZjrBn8pWotS5KYbn+WPQ4vQqvvS5R+bnoJjrwkGkX3C+V4gvAoGAbG+uzK2f2dMPKlGLZtmDMrvmpySnbDW7mioeS9eHim4OUNvKRxhXsZM4t9VryqT2Ne6zB4O4RQPSDZXenUyU4gAg5+8EovjtBeNaCwRNHpz3ffct/Q/jrqZn6P3yATDTx6HRodTfoGVPM29xqdxXDjgMvFc8da+TXqjvlZT1Xzg=";
-        System.out.println(privateKey.length());
+    public void lll() throws UnsupportedEncodingException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
 
+        String name = "A-1.txt";
+        System.out.println(FilenameUtils.getExtension(name));
+        System.out.println(FilenameUtils.getName(name));
+        System.out.println(FilenameUtils.getBaseName(name));
+        System.out.println(FilenameUtils.getPath(name));
 
-        String s2 = "MIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDilCj2Y9i8had+JmhrSzgJ+3xk1vk4rxCf+6vOIJRT0+tqswd3RruLnnsvcTtsNHL5aceeVBcXXDz3QyH20qULxS6hdP85zXLUjo9ScprokEI6hpqRaLqwEhtiiaVV/fuI++6ZIo60ygBf4qeJqD8wWpx410gQ2bYs550sRLA8ocJ+WMaudZjHsaTJQmQZ9B77JF7yUONm0s9XF9bAjJrzyGiSEu0CwLb8DwmFc0l4Q3ACpM+7UlYKMex9Ez+7jFnIx0Kw3cyKVkWyBiG7tDsQTo0JpAFEqNXeNdApmv+Z529HcOGbNTTYdqZQ3GY5AL4gPyuvfwxf6DHQswHidyKJAgMBAAECggEBAJ/1DxIbHTjCdqOVg+QzXyWU+JXMOnetB+SZ7QmBcJXZp3pVV7D6K47+3GJ64wOZ541zAy0gmoiwYo4BQ+oXfdNYanorub9Z7nZnCoGfTQNgTJE608ZSFHIW5mRjXmjd/IURrrlHb03syeTng3WoZKvDXHHnMgZLXNRI02ocN/skt4Ex7I3UfZGVlnWCJxCjhuasCyz1nxAicLtKhtxXBl5IUAxCpR8tfkVzWYSuV+OVAu0EswK7QXPgccLq/MlRs/QFL+IIEdCv8HFbMwbwR4v/J3EiUs9qwrO/wok6zT1U5uHXgyRo8okHOXQ3D3na2BgPphlkTYh2TvBc2JOQBIECgYEA+XAVM0YgmjriSUfm3ehHOi3js3yDGxDX1tqZHhLWVIlLj1ECO3ElWXqlx0StOmLnZGPlUu6V+zX/og3lFQRrz4SI4jQy7BOgXFF2URVPHXdLeRmwvPKm7dBJL8ZLVafaY8CNWHZFXTw0FT1qZElO2wnoJa++omBv+RmHsrHujTkCgYEA6IogJ38wYpf4KfBynykZ7+fVfSi+1mhrXYLbTOfSPxrj6Aeny4O0T8Ai8b8Ixh5sXupN+GESOj5k0i/a+nLKZMxGMK9wgkwVvoWNc0XJC9iSiacGePr1IT9LK0Y9CANV6MT2Ze0wvYLJdgcZICLt+3u1ML30jYnQi1Istw9rj9ECgYAJp+4aKwfOEKN75L2qL3i6ZtZet1436QIB/jpZMK99XEdBiAhHFs00VoweV6lBDl0YxMk22aeSrvdzZYhNtPsbcG0AHLcv7l6R1FF5OBL0+A5C5Nyzo80UfbCnmcyGx1Wr8ONH3mQ3BMKbY+I/eZsE3bBP7Sq7DHKpOPTI1Rx/+QKBgQCHf9T0rtxW1w64AXAI5j5C2OhBofhxny7QsmtvCLYuJ1Ed5zgTEo+C2QaDrzlBmIC1XfpI/OdOIQVGpLQIs9LToWRVAiWhBwy0k8W0oblgubXJmBXhcPpdgTAf6zGs9aSdmgeppOh9xTP3HnO5kiDyJUeTO1zBDMkEJcIAeW/HwQKBgA64KoyjuY0kgwej///i4K5th+0B+PGK8PzG43l6NJojUeEc0j+QDbwU+aAKUaa6+rMEL9OCi5hTo55EEX/4bULxEEw8LiQRr6wxgXs/4DfnKGmJmJsacPE6uFxOnGGWJE6rZHttTsVNxtJgc4iFX4HADeNyCWwFYKtEMaodV02r";
-        System.out.println(s2.length());
+        String es = "<a href=\">ssss</a>";
+        System.out.println(StringEscapeUtils.escapeHtml4(es));
+        System.out.println(StringEscapeUtils.unescapeHtml4(es));
+
+        String content = "测试";
+        System.out.println(URLEncoder.encode(content, "utf-8"));
+        System.out.println(URLDecoder.decode(content, "utf-8"));
+        System.out.println(URLDecoder.decode("%E6%B5%8B%E8%AF%95", "utf-8"));
+        //unicode => 汉字
+        System.out.println(UnicodeUtil.toString("\u5927\u6D1B"));
+        char c = (char) Integer.parseInt("6D1B", 16);
+        System.out.println(UnicodeUtil.toUnicode("大洛"));
+
+        ReceivingAddressDto dto = new ReceivingAddressDto();
+        dto.setAddress("北京市");
+        dto.setUsername("测试");
+        System.out.println(PropertyUtils.describe(dto));
+        System.out.println(PropertyUtils.getSimpleProperty(dto, "username"));
+
+    }
+
+    @Test
+    public void java8Map() {
+        HashMap<String, String> map = new HashMap<>();
+        String orDefault = map.getOrDefault("B", "空数据");
+        //区别在于：map为null时，也会返回默认值。而不会报NPE。
+        String b = MapUtils.getString(map, "B", "util-空数据");
+        System.out.println("getOrDefault 与MapUtils : " + orDefault + "---" + b);
+        //System.out.println(map.put("C", "ddd"));
+        //C不存在返回null, C存在返回旧数据
+        System.out.println(map.putIfAbsent("C", "dd"));
+        //key 存在返回旧值，key不存在返回设定的value值
+        System.out.println(map.computeIfAbsent("D", k -> "qq"));
+        System.out.println(map.computeIfPresent("D", (o, n) -> n + o));
+        System.out.println(map);
+        //key 不存在，将对应的value设为第二个参数。key存在则将oldValue和第二个参数 进行计算后存为该key值对应的value。
+        System.out.println(map.merge("C", "ccc", (o, n) -> (o + n).toUpperCase()));
+        System.out.println("merge map: " + map);
+
+        System.out.println("-----------------------------------------------");
+
+        HashMap<String, List<Integer>> map1 = new HashMap<>();
+        //当key值不存在时，会将计算结果返回，返回创建的LIst
+        List<Integer> b1 = map1.computeIfAbsent("B", k -> new ArrayList<>());
+        b1.add(1000);
+
+        //key不存在时不会创建List，此时执行add会NPE
+        List<Integer> b2 = map1.putIfAbsent("C", new ArrayList<>());
+        //b2.add(2000);
+        System.out.println(map1.get("B") + "---" + map1.get("C"));
+
 
     }
 
