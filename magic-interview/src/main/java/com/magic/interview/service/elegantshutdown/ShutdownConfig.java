@@ -6,6 +6,8 @@ import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.PreDestroy;
+
 /**
  *
  * @author Cheng Yufei
@@ -22,5 +24,10 @@ public class ShutdownConfig {
         TomcatServletWebServerFactory tomcatServletWebServerFactory = new TomcatServletWebServerFactory();
         tomcatServletWebServerFactory.addConnectorCustomizers(customizeConfig);
         return tomcatServletWebServerFactory;
+    }
+
+    @PreDestroy
+    public void back() {
+        System.out.println(">>>>关机前，必要事情处理<<<<");
     }
 }
