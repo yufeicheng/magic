@@ -246,3 +246,18 @@ Cache-Control: no-cache
 GET {{url}}/value/list
 Accept: */*
 Cache-Control: no-cache
+
+###
+GET {{url}}/shutDown/info
+Accept: */*
+Cache-Control: no-cache
+
+###
+POST {{url}}/shutDown/shutdown
+Accept: */*
+Cache-Control: no-cache
+
+###
+POST {{url}}/actuator/shutdown
+Accept: */*
+Cache-Control: no-cache

@@ -14,8 +14,8 @@ import java.util.stream.Stream;
  * @author Cheng Yufei
  * @create 2020-01-08 9:30
  **/
-//@Service
-//@Slf4j
+@Service
+@Slf4j
 public class RateLimitService {
 
     private RateLimiter rateLimiter;

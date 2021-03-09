@@ -56,11 +56,7 @@ import java.security.SecureRandom;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
+import java.time.*;
 import java.time.chrono.IsoChronology;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
@@ -472,7 +468,9 @@ public class TestC {
 
         System.out.println(LocalDateTime.ofInstant(Instant.ofEpochMilli(1602833429795L), ZoneId.of("Asia/Shanghai")));
 
-        System.out.println(ZoneId.getAvailableZoneIds());
+        System.out.println(Clock.systemDefaultZone().millis());
+        System.out.println(System.currentTimeMillis());
+        System.out.println(Instant.now().toEpochMilli());
     }
 
     @Test
@@ -581,5 +579,6 @@ public class TestC {
 
 
     }
+
 
 }
